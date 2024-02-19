@@ -1,0 +1,19 @@
+﻿@model List<Furnish.Models.Product>
+
+@{
+    ViewBag.Title = "Search";
+}
+
+<h1>Search Products</h1>
+
+<form asp-controller="Product" asp-action="Search" method="post">
+    <div class="form-group">
+        <label for="name">Product Name:</label>
+        <input type="text" name="name" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="category">Product Category:</label>
+        <input type="text" name="category" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
