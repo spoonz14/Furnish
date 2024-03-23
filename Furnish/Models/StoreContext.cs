@@ -7,6 +7,7 @@ namespace Furnish.Models
         public StoreContext(DbContextOptions<StoreContext> options) : base(options) { }
 
         public DbSet<Product> Products { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -20,6 +21,8 @@ namespace Furnish.Models
                 new Product { ProductId = 5, Name = "Llappuil", CategoryId = "Sofa", Price = 649.99 },
                 new Product { ProductId = 6, Name = "Yuhuashi", CategoryId = "Bed", Price = 247.00 }
                 );
+
+            //modelBuilder.Entity<User>();
         }
     }
 }
