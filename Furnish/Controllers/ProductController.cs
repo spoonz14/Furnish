@@ -57,5 +57,19 @@ namespace Furnish.Controllers
         {
             return RedirectToAction("List", new { name, category });
         }
+
+        [HttpGet]
+        [Route("[controller]s/{id}")]
+        public IActionResult Details(int id)
+        {
+            var product = context.Products.FirstOrDefault(p => p.ProductId == id);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            return View(product);
+        }
     }
 }

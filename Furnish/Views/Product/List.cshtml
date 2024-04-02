@@ -7,7 +7,7 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="List">Return</a>
+    <a asp-controller="Home" asp-action="Index">Return</a>
     <a asp-action="Search">Search</a>
 </p>
 <table class="table">
@@ -35,7 +35,7 @@
                 @Html.DisplayFor(modelItem => item.CategoryId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Price)
+                    @($"${item.Price}")
             </td>
             <td>
                 <a asp-action="Details" asp-route-id="@item.ProductId">Details</a>
