@@ -24,6 +24,7 @@
                         <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
                     </li>
                     <li><a class="nav-link" asp-controller="Products" asp-action="All">Shop</a></li>
+                    <li><a class="nav-link" asp-controller="Login" asp-action="Login">Log In/Sign Up</a></li>
                     <li><a class="nav-link" asp-controller="Home" asp-action="About">About us</a></li>
                     <li><a class="nav-link" href="contact.html">Contact us</a></li>
                 </ul>
@@ -42,6 +43,8 @@
             @RenderBody()
         </main>
     </div>
+
+    @RenderSection("Scripts", required: false)
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
