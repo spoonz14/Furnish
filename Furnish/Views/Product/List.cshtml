@@ -6,6 +6,7 @@
 
 <h1>Index</h1>
 
+
 <p>
     <a asp-controller="Home" asp-action="Index">Return</a>
     <a asp-action="Search">Search</a>
@@ -41,7 +42,7 @@
                 <a asp-action="Details" asp-route-id="@item.ProductId">Details</a>
                     @if (Context.Request.Cookies.TryGetValue("jwtToken", out string token))
                     {
-                        <a asp-controller="Cart" asp-action="Cart" asp-route-id="@item.ProductId">Add to Cart</a>
+                        <a asp-controller="Cart" asp-action="Cart" asp-route-id="@item.ProductId" asp-route-token="@ViewBag.Token">Add to Cart</a>
                     }
                     else
                     {

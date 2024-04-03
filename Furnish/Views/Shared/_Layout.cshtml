@@ -8,18 +8,6 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="~/css/site.css" rel="stylesheet" />
 </head>
-@if (Model != null)
-{
-    <p>Username: @Model.Username</p>
-    <p>Email: @Model.Email</p>
-    <p>Role: @Model.Role</p>
-    <p>Surname: @Model.Surname</p>
-    <p>Given Name: @Model.GivenName</p>
-}
-else
-{
-    <p>No user information available.</p>
-}
 <body>
     <!-- Start Header/Navigation -->
     <nav class="custom-navbar navbar navbar-expand-md navbar-dark bg-dark" aria-label="Furni navigation bar">
@@ -35,14 +23,20 @@ else
                     <li class="nav-item active">
                         <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
                     </li>
-                    <li><a class="nav-link" asp-controller="Products" asp-action="All">Shop</a></li>
+                    <li>
+                        <a class="nav-link" asp-controller="Products" asp-action="All" asp-route-token="@ViewBag.Token">Shop</a>
+                    </li>
                     @if (ViewBag.IsAuthenticated != null && ViewBag.IsAuthenticated)
                     {
-                        <li><a class="nav-link" asp-controller="Login" asp-action="Logout">Logout</a></li>
+                        <li>
+                            <a class="nav-link" asp-controller="Login" asp-action="Logout">Logout</a>
+                        </li>
                     }
                     else
                     {
-                        <li><a class="nav-link" asp-controller="Login" asp-action="Login">Log In/Sign Up</a></li>
+                        <li>
+                            <a class="nav-link" asp-controller="Login" asp-action="Login">Log In/Sign Up</a>
+                        </li>
                     }
                     <li><a class="nav-link" asp-controller="Home" asp-action="About">About us</a></li>
                     <li><a class="nav-link" href="contact.html">Contact us</a></li>

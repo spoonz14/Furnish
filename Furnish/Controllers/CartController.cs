@@ -16,16 +16,24 @@ namespace Furnish.Controllers
         [Route("[controller]s/{id}")]
         public IActionResult Cart(int id)
         {
-            if (Request.Cookies.TryGetValue("jwtToken", out string token))
+            string token = Request.Cookies["jwtToken"]; // Get the token value from cookies
+            ViewBag.Token = token; // Set the token value in ViewBag
+
+            if (!string.IsNullOrEmpty(token))
             {
+                bool isAuthenticated = true; // Set isAuthenticated based on token validation
+                ViewBag.IsAuthenticated = isAuthenticated;
+
                 var product = context.Products.FirstOrDefault(p => p.ProductId == id);
 
                 if (product == null)
                 {
                     return NotFound();
                 }
+
                 return View(product);
             }
+
             return BadRequest("Please login to access the cart");
         }
     }
