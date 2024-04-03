@@ -57,38 +57,38 @@ namespace Furnish.Controllers
 
 
 
-        [HttpGet("Admins")]
-        [Authorize]
-        public IActionResult AdminsEndpoint()
-        {
-            var currentUser = GetCurrentUser();
-            if (currentUser.Role == "Administrator")
-            {
-                return Ok($"Hi {currentUser.GivenName}, you are an {currentUser.Role}");
-            }
-            return Ok($"Hi {currentUser.GivenName}, you are a {currentUser.Role}");
-        }
+        //[HttpGet("Admins")]
+        //[Authorize]
+        //public IActionResult AdminsEndpoint()
+        //{
+        //    var currentUser = GetCurrentUser();
+        //    if (currentUser.Role == "Administrator")
+        //    {
+        //        return Ok($"Hi {currentUser.GivenName}, you are an {currentUser.Role}");
+        //    }
+        //    return Ok($"Hi {currentUser.GivenName}, you are a {currentUser.Role}");
+        //}
 
 
-        private User GetCurrentUser()
-        {
-            var identity = HttpContext.User.Identity as ClaimsIdentity;
+        //private User GetCurrentUser()
+        //{
+        //    var identity = HttpContext.User.Identity as ClaimsIdentity;
 
-            if (identity != null)
-            {
-                var userClaims = identity.Claims;
+        //    if (identity != null)
+        //    {
+        //        var userClaims = identity.Claims;
 
-                return new User
-                {
-                    Username = userClaims.FirstOrDefault(o => o.Type == ClaimTypes.NameIdentifier)?.Value,
-                    Email = userClaims.FirstOrDefault(o => o.Type == ClaimTypes.Email)?.Value,
-                    Role = userClaims.FirstOrDefault(o => o.Type == ClaimTypes.Role)?.Value,
-                    Surname = userClaims.FirstOrDefault(o => o.Type == ClaimTypes.Surname)?.Value,
-                    GivenName = userClaims.FirstOrDefault(o => o.Type == ClaimTypes.GivenName)?.Value,
-                };
-            }
-            return null;
-        }
+        //        return new User
+        //        {
+        //            Username = userClaims.FirstOrDefault(o => o.Type == ClaimTypes.NameIdentifier)?.Value,
+        //            Email = userClaims.FirstOrDefault(o => o.Type == ClaimTypes.Email)?.Value,
+        //            Role = userClaims.FirstOrDefault(o => o.Type == ClaimTypes.Role)?.Value,
+        //            Surname = userClaims.FirstOrDefault(o => o.Type == ClaimTypes.Surname)?.Value,
+        //            GivenName = userClaims.FirstOrDefault(o => o.Type == ClaimTypes.GivenName)?.Value,
+        //        };
+        //    }
+        //    return null;
+        //}
 
 
     }

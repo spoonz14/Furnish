@@ -4,6 +4,23 @@
 
 <h1>Furnish: Your Friendly Neighbourhood Furniture Store</h1>
 
+@model Furnish.Models.User
+
+<h1>Welcome, @ViewBag.Token!</h1>
+
+@if (Model != null)
+{
+    <p>Username: @Model.Username</p>
+    <p>Email: @Model.Email</p>
+    <p>Role: @Model.Role</p>
+    <p>Surname: @Model.Surname</p>
+    <p>Given Name: @Model.GivenName</p>
+}
+else
+{
+    <p>No user information available.</p>
+}
+
 @if (TempData.ContainsKey("SuccessMessage"))
 {
     <div class="alert alert-success" role="alert">
@@ -16,7 +33,6 @@
     <div class="col-sm-4">
         <div class="list-group">
             <a asp-controller="Product" asp-action="List" class="list-group-item">View our products</a>
-            <a asp-controller="Home" asp-action="About" class="list-group-item">Learn more about us</a>
         </div>
     </div>
 </div>
