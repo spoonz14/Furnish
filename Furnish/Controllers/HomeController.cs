@@ -16,10 +16,14 @@ namespace Furnish.Controllers
             _config = config;
         }
 
-        public IActionResult Index(string jwtToken)
+        public IActionResult Index()
         {
-            if (Request.Cookies.TryGetValue("jwtToken", out string token))
+            bool isAuthenticated = Request.Cookies.ContainsKey("jwtToken"); // Check if jwtToken exists in cookies
+            ViewBag.IsAuthenticated = isAuthenticated; // Set ViewBag.IsAuthenticated
+
+            if (isAuthenticated)
             {
+                string token = Request.Cookies["jwtToken"]; // Get the token value
                 var userClaims = ValidateAndDecodeToken(token);
                 if (userClaims != null)
                 {
@@ -37,8 +41,14 @@ namespace Furnish.Controllers
             }
 
             // If token is invalid or not provided, redirect to login
-            return View();
+            return View() ; // Adjust the redirect action and controller as per your application setup
         }
+
+
+
+
+
+
 
         private ClaimsPrincipal ValidateAndDecodeToken(string token)
         {
