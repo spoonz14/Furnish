@@ -42,6 +42,7 @@ namespace Furnish
                     };
                 });
 
+            services.AddSession(); 
             services.AddHttpContextAccessor();
             services.AddControllersWithViews();
             services.AddRazorPages();
@@ -61,7 +62,7 @@ namespace Furnish
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseSession();
             app.UseRouting();
 
             // Add authentication and authorization middleware
