@@ -2,9 +2,10 @@
 
 @{
     ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>Our Products</h1>
 
 <p>
     <a asp-controller="Home" asp-action="Index">Return</a>
@@ -26,21 +27,22 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CategoryId)
-            </td>
-            <td>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoryId)
+                </td>
+                <td>
                     @($"${item.Price}")
-            </td>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.ProductId">Details</a>
-            </td>
-        </tr>
-}
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.ProductId">Details</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

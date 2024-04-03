@@ -7,6 +7,43 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\images\bag.svg" />
+    <None Include="wwwroot\images\bowl-2.png" />
+    <None Include="wwwroot\images\bowl-3.png" />
+    <None Include="wwwroot\images\cart.svg" />
+    <None Include="wwwroot\images\couch.png" />
+    <None Include="wwwroot\images\cross.svg" />
+    <None Include="wwwroot\images\dots-green.svg" />
+    <None Include="wwwroot\images\dots-light.svg" />
+    <None Include="wwwroot\images\dots-yellow.svg" />
+    <None Include="wwwroot\images\envelope-outline.svg" />
+    <None Include="wwwroot\images\img-grid-1.jpg" />
+    <None Include="wwwroot\images\img-grid-2.jpg" />
+    <None Include="wwwroot\images\img-grid-3.jpg" />
+    <None Include="wwwroot\images\person-1.jpg" />
+    <None Include="wwwroot\images\person-1.png" />
+    <None Include="wwwroot\images\person_1.jpg" />
+    <None Include="wwwroot\images\person_2.jpg" />
+    <None Include="wwwroot\images\person_3.jpg" />
+    <None Include="wwwroot\images\person_4.jpg" />
+    <None Include="wwwroot\images\post-1.jpg" />
+    <None Include="wwwroot\images\post-2.jpg" />
+    <None Include="wwwroot\images\post-3.jpg" />
+    <None Include="wwwroot\images\product-1.png" />
+    <None Include="wwwroot\images\product-2.png" />
+    <None Include="wwwroot\images\product-3.png" />
+    <None Include="wwwroot\images\return.svg" />
+    <None Include="wwwroot\images\sofa.png" />
+    <None Include="wwwroot\images\support.svg" />
+    <None Include="wwwroot\images\truck.svg" />
+    <None Include="wwwroot\images\user.svg" />
+    <None Include="wwwroot\images\why-choose-us-img.jpg" />
+    <None Include="wwwroot\js\bootstrap.bundle.min.js" />
+    <None Include="wwwroot\js\custom.js" />
+    <None Include="wwwroot\js\tiny-slider.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid.EntityFrameworkAdapter" Version="8.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.3">
@@ -21,6 +58,10 @@
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="7.5.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Content\js\" />
   </ItemGroup>
 
 </Project>
