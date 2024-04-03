@@ -1,18 +1,61 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Furnish.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Furnish.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private readonly IConfiguration _config;
+
+        public HomeController(IConfiguration config)
         {
+            _config = config;
+        }
+
+        public IActionResult Index(string jwtToken)
+        {
+            if (Request.Cookies.TryGetValue("jwtToken", out string token))
+            {
+                var userClaims = ValidateAndDecodeToken(token);
+                if (userClaims != null)
+                {
+                    var currentUser = new User
+                    {
+                        Username = userClaims.FindFirst(ClaimTypes.NameIdentifier)?.Value,
+                        Email = userClaims.FindFirst(ClaimTypes.Email)?.Value,
+                        Role = userClaims.FindFirst(ClaimTypes.Role)?.Value,
+                        Surname = userClaims.FindFirst(ClaimTypes.Surname)?.Value,
+                        GivenName = userClaims.FindFirst(ClaimTypes.GivenName)?.Value
+                    };
+
+                    return View(currentUser);
+                }
+            }
+
+            // If token is invalid or not provided, redirect to login
             return View();
         }
 
-        [Route("[action]")]
-        public IActionResult About()
+        private ClaimsPrincipal ValidateAndDecodeToken(string token)
         {
-            return View();
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(_config["Jwt:Key"]);
+
+            SecurityToken validatedToken;
+            var claimsPrincipal = tokenHandler.ValidateToken(token, new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(key),
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                ClockSkew = TimeSpan.Zero
+            }, out validatedToken);
+
+            return claimsPrincipal;
         }
     }
 }
