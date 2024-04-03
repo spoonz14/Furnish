@@ -29,7 +29,8 @@ namespace Furnish.Controllers
         {
             try
             {
-                string token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+                //string token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+                string token = Request.Cookies["jwtToken"];
                 Console.WriteLine("Received token: " + token); // Log token value
 
                 if (!string.IsNullOrEmpty(token))
