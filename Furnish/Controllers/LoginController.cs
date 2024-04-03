@@ -58,9 +58,6 @@ namespace Furnish.Controllers
             return View(userLogin); // Return the view with validation errors
         }
 
-
-
-
         private string Generate(User user)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
@@ -94,5 +91,17 @@ namespace Furnish.Controllers
             }
             return null;
         }
+
+        public IActionResult Logout()
+        {
+            // Clear the JWT token cookie by setting its expiration to a past date
+            Response.Cookies.Delete("jwtToken");
+
+            // Alternatively, you can set the cookie's expiration to a past date
+            // Response.Cookies.Append("jwtToken", "", new Microsoft.AspNetCore.Http.CookieOptions { Expires = DateTime.Now.AddDays(-1) });
+
+            return RedirectToAction("Index", "Home");
+        }
     }
 }
+
