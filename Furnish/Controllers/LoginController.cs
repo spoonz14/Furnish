@@ -21,19 +21,18 @@ namespace Furnish.Controllers
 
         [HttpGet("[controller]")]
         [AllowAnonymous]
-        public IActionResult Login(string returnUrl)
+        public IActionResult Login()
         {
-            ViewData["ReturnUrl"] = returnUrl; // Store ReturnUrl in ViewData
             return View();
         }
 
         [AllowAnonymous]
         [HttpPost("[controller]")]
-        public IActionResult Login(UserLogin userLogin, string returnUrl)
+        public IActionResult Login(UserLogin userLogin)
         {
             if (ModelState.IsValid)
             {
-                var user = Authenticate(userLogin, returnUrl); // Pass returnUrl to Authenticate method
+                var user = Authenticate(userLogin);
 
                 if (user != null)
                 {
@@ -42,28 +41,22 @@ namespace Furnish.Controllers
                     // Create a cookie to store the token
                     Response.Cookies.Append("jwtToken", token, new CookieOptions
                     {
+                        //HttpOnly = true,
+                        //Secure = true,
                         SameSite = SameSiteMode.Strict,
-                        MaxAge = TimeSpan.FromMinutes(15)
+                        MaxAge = TimeSpan.FromMinutes(15) // Set expiration time for the cookie
                     });
 
-                    // Redirect the user to the specified return URL or default page
-                    if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
-                    {
-                        return Redirect(returnUrl);
-                    }
-                    else
-                    {
-                        return RedirectToAction("Index", "Home"); // Redirect to home page by default
-                    }
+                    // Pass the JWT token as a query parameter to the Index action
+                    //return RedirectToAction("Index", "Home", new { jwtToken = token });
+                    return RedirectToAction("Index", "Home");
                 }
                 ModelState.AddModelError(string.Empty, "Invalid username or password");
             }
 
             // If we reach here, there were validation errors or authentication failed
-            ViewData["ReturnUrl"] = returnUrl; // Store ReturnUrl in ViewData
             return View(userLogin); // Return the view with validation errors
         }
-
 
         private string Generate(User user)
         {
@@ -87,7 +80,7 @@ namespace Furnish.Controllers
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-        private User Authenticate(UserLogin userLogin, string returUrl)
+        private User Authenticate(UserLogin userLogin)
         {
             var currentUser = context.Users.FirstOrDefault(o => o.Username.ToLower() ==
             userLogin.Username.ToLower() && o.Password == userLogin.Password);
