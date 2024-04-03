@@ -23,8 +23,8 @@ namespace Furnish.Models
                 );
 
             modelBuilder.Entity<User>().HasData(
-                new User { Username = "sbarr", Password = "Abcd1234", Email = "sbarr@shaw.ca", Role = "Administrator", Surname = "Barr", GivenName = "Spencer"},
-                new User { Username = "cbarr", Password = "Abcd1234", Email = "cbarr@shaw.ca", Role = "Buyer", Surname = "Barr", GivenName = "Corrine" }
+                new User { userId = 1, Username = "sbarr", Password = "Abcd1234", Email = "sbarr@shaw.ca", Role = "Administrator", Surname = "Barr", GivenName = "Spencer"},
+                new User { userId = 2, Username = "cbarr", Password = "Abcd1234", Email = "cbarr@shaw.ca", Role = "Buyer", Surname = "Barr", GivenName = "Corrine" }
                 );
         }
     }
