@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    var isAuthenticated = HttpContextAccessor.HttpContext.Request.Cookies.TryGetValue("jwtToken", out string token);
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -36,7 +42,7 @@ else
                         <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
                     </li>
                     <li><a class="nav-link" asp-controller="Products" asp-action="All">Shop</a></li>
-                    @if (Context.Request.Cookies.TryGetValue("jwtToken", out string token))
+                    @if (!isAuthenticated)
                     {
                         <li><a class="nav-link" asp-controller="Login" asp-action="Login">Log In/Sign Up</a></li>
                     }
@@ -44,7 +50,7 @@ else
                     {
                         <li><a class="nav-link" asp-controller="Login" asp-action="Logout">Logout</a></li>
                     }
-                    
+
                     <li><a class="nav-link" asp-controller="Home" asp-action="About">About us</a></li>
                     <li><a class="nav-link" href="contact.html">Contact us</a></li>
                 </ul>
