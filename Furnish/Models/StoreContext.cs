@@ -22,7 +22,10 @@ namespace Furnish.Models
                 new Product { ProductId = 6, Name = "Yuhuashi", CategoryId = "Bed", Price = 247.00 }
                 );
 
-            //modelBuilder.Entity<User>();
+            modelBuilder.Entity<User>().HasData(
+                new User { Username = "sbarr", Password = "Abcd1234", Email = "sbarr@shaw.ca", Role = "Administrator", Surname = "Barr", GivenName = "Spencer"},
+                new User { Username = "cbarr", Password = "Abcd1234", Email = "cbarr@shaw.ca", Role = "Buyer", Surname = "Barr", GivenName = "Corrine" }
+                );
         }
     }
 }

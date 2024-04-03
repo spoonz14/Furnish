@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace Furnish
 {
@@ -18,6 +21,22 @@ namespace Furnish
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options => {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = Configuration["Jwt:Issuer"],
+                        ValidAudience = Configuration["Jwt:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration
+                            ["Jwt:Key"]))
+                    };
+                });
+            services.AddMvc();
+            services.AddControllers();
             services.AddRazorPages();
         }
 
@@ -43,9 +62,11 @@ namespace Furnish
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                //endpoints.MapControllerRoute(
+                //    name: "default",
+                //    pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllers();
+                endpoints.MapRazorPages();
             });
         }
     }

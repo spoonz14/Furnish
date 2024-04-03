@@ -6,10 +6,17 @@ namespace Furnish.Models
     {
         [Key]
         public int userId { get; set; }
-
-        public string username { get; set; }
-        public string password { get; set; }
-        public string email { get; set; }
-
+        [Required]
+        public string Username { get; set; }
+        [Required]
+        public string Password { get; set; }
+        [Required]
+        public string Email { get; set; }
+        [Required]
+        public string Role { get; set; }
+        [Required]
+        public string Surname { get; set; }
+        [Required]
+        public string GivenName { get; set; }
     }
 }

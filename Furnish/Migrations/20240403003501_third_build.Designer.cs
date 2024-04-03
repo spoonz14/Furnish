@@ -11,15 +11,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Furnish.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20240219014640_initial")]
-    partial class initial
+    [Migration("20240403003501_third_build")]
+    partial class third_build
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.2")
+                .HasAnnotation("ProductVersion", "8.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -90,6 +90,43 @@ namespace Furnish.Migrations
                             Name = "Yuhuashi",
                             Price = 247.0
                         });
+                });
+
+            modelBuilder.Entity("Furnish.Models.User", b =>
+                {
+                    b.Property<int>("userId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("userId"));
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("GivenName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Surname")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("userId");
+
+                    b.ToTable("Users");
                 });
 #pragma warning restore 612, 618
         }
