@@ -39,7 +39,15 @@
             </td>
             <td>
                 <a asp-action="Details" asp-route-id="@item.ProductId">Details</a>
-            </td>
+                    @if (Context.Request.Cookies.TryGetValue("jwtToken", out string token))
+                    {
+                        <a asp-controller="Cart" asp-action="Cart" asp-route-id="@item.ProductId">Add to Cart</a>
+                    }
+                    else
+                    {
+                        <a asp-controller="Login" asp-action="Login" asp-route-returnUrl="@Context.Request.Path">Add to Cart</a>
+                    }
+                </td>
         </tr>
 }
     </tbody>
