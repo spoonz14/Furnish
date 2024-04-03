@@ -4,6 +4,12 @@
 
 <h1>Furnish: Your Friendly Neighbourhood Furniture Store</h1>
 
+@if (TempData.ContainsKey("SuccessMessage"))
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["SuccessMessage"]
+    </div>
+}
 <p>Make yourself at home and check out some cool digs.</p>
 
 <div class="row">
