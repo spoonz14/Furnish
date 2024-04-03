@@ -44,12 +44,6 @@ namespace Furnish.Controllers
             return View() ; // Adjust the redirect action and controller as per your application setup
         }
 
-
-
-
-
-
-
         private ClaimsPrincipal ValidateAndDecodeToken(string token)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
