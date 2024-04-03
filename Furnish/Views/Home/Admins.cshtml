@@ -1,0 +1,20 @@
+﻿@model Furnish.Models.User
+
+@{
+    ViewData["Title"] = "Admins";
+}
+
+<h1>AdminsEndpoint</h1>
+
+@if (Model != null && Model.Role == "Administrator")
+{
+    <p>Ok($"Hi {Model.GivenName}, you are an {Model.Role}")</p>
+}
+else
+{
+    <p>Unauthorized access</p>
+}
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
