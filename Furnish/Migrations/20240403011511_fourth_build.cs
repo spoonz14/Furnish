@@ -7,7 +7,7 @@
 namespace Furnish.Migrations
 {
     /// <inheritdoc />
-    public partial class third_build : Migration
+    public partial class fourth_build : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -56,6 +56,15 @@ namespace Furnish.Migrations
                     { 4, "Chair", "Ashley Cashton", 2299.9899999999998 },
                     { 5, "Sofa", "Llappuil", 649.99000000000001 },
                     { 6, "Bed", "Yuhuashi", 247.0 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "userId", "Email", "GivenName", "Password", "Role", "Surname", "Username" },
+                values: new object[,]
+                {
+                    { 1, "sbarr@shaw.ca", "Spencer", "Abcd1234", "Administrator", "Barr", "sbarr" },
+                    { 2, "cbarr@shaw.ca", "Corrine", "Abcd1234", "Buyer", "Barr", "cbarr" }
                 });
         }
 

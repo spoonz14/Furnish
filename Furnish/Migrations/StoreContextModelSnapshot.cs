@@ -124,6 +124,28 @@ namespace Furnish.Migrations
                     b.HasKey("userId");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            userId = 1,
+                            Email = "sbarr@shaw.ca",
+                            GivenName = "Spencer",
+                            Password = "Abcd1234",
+                            Role = "Administrator",
+                            Surname = "Barr",
+                            Username = "sbarr"
+                        },
+                        new
+                        {
+                            userId = 2,
+                            Email = "cbarr@shaw.ca",
+                            GivenName = "Corrine",
+                            Password = "Abcd1234",
+                            Role = "Buyer",
+                            Surname = "Barr",
+                            Username = "cbarr"
+                        });
                 });
 #pragma warning restore 612, 618
         }
