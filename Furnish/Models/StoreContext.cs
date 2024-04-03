@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Furnish.Models;
 
 namespace Furnish.Models
 {
@@ -28,6 +27,5 @@ namespace Furnish.Models
                 new User { userId = 2, Username = "cbarr", Password = "Abcd1234", Email = "cbarr@shaw.ca", Role = "Buyer", Surname = "Barr", GivenName = "Corrine" }
                 );
         }
-        public DbSet<Furnish.Models.UserLogin> UserLogin { get; set; } = default!;
     }
 }

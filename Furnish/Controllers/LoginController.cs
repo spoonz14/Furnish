@@ -1,6 +1,8 @@
 ﻿using Furnish.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -8,8 +10,11 @@ using System.Text;
 
 namespace Furnish.Controllers
 {
-    public class LoginController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class LoginController : ControllerBase
     {
+
         private IConfiguration _config;
         private StoreContext context;
 
@@ -19,43 +24,18 @@ namespace Furnish.Controllers
             context = ctx;
         }
 
-        [HttpGet("[controller]")]
         [AllowAnonymous]
-        public IActionResult Login()
+        [HttpPost]
+        public IActionResult Login([FromBody] UserLogin userLogin)
         {
-            return View();
-        }
+            var user = Authenticate(userLogin);
 
-        [AllowAnonymous]
-        [HttpPost("[controller]")]
-        public IActionResult Login(UserLogin userLogin)
-        {
-            if (ModelState.IsValid)
+            if (user != null)
             {
-                var user = Authenticate(userLogin);
-
-                if (user != null)
-                {
-                    var token = Generate(user);
-
-                    // Create a cookie to store the token
-                    Response.Cookies.Append("jwtToken", token, new CookieOptions
-                    {
-                        //HttpOnly = true,
-                        //Secure = true,
-                        SameSite = SameSiteMode.Strict,
-                        MaxAge = TimeSpan.FromMinutes(15) // Set expiration time for the cookie
-                    });
-
-                    // Pass the JWT token as a query parameter to the Index action
-                    //return RedirectToAction("Index", "Home", new { jwtToken = token });
-                    return RedirectToAction("Index", "Home");
-                }
-                ModelState.AddModelError(string.Empty, "Invalid username or password");
+                var token = Generate(user);
+                return Ok(token);
             }
-
-            // If we reach here, there were validation errors or authentication failed
-            return View(userLogin); // Return the view with validation errors
+            return NotFound("User not found.");
         }
 
         private string Generate(User user)
@@ -65,12 +45,12 @@ namespace Furnish.Controllers
 
             var claims = new[]
             {
-            new Claim(ClaimTypes.NameIdentifier, user.Username),
-            new Claim(ClaimTypes.Email, user.Email),
-            new Claim(ClaimTypes.Role, user.Role),
-            new Claim(ClaimTypes.Surname, user.Surname),
-            new Claim(ClaimTypes.GivenName, user.GivenName)
-        };
+                new Claim(ClaimTypes.NameIdentifier, user.Username),
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Role, user.Role),
+                new Claim(ClaimTypes.Surname, user.Surname),
+                new Claim(ClaimTypes.GivenName, user.GivenName)
+            };
 
             var token = new JwtSecurityToken(_config["Jwt:Issuer"],
                 _config["Jwt:Audience"],
@@ -80,6 +60,7 @@ namespace Furnish.Controllers
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
         private User Authenticate(UserLogin userLogin)
         {
             var currentUser = context.Users.FirstOrDefault(o => o.Username.ToLower() ==
@@ -91,17 +72,5 @@ namespace Furnish.Controllers
             }
             return null;
         }
-
-        public IActionResult Logout()
-        {
-            // Clear the JWT token cookie by setting its expiration to a past date
-            Response.Cookies.Delete("jwtToken");
-
-            // Alternatively, you can set the cookie's expiration to a past date
-            // Response.Cookies.Append("jwtToken", "", new Microsoft.AspNetCore.Http.CookieOptions { Expires = DateTime.Now.AddDays(-1) });
-
-            return RedirectToAction("Index", "Home");
-        }
     }
 }
-
