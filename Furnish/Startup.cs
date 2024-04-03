@@ -1,11 +1,10 @@
-﻿using Furnish.Models;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿//namespace Furnish;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -22,14 +21,8 @@ namespace Furnish
 
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add EF core Dependency Injection
-            services.AddDbContext<StoreContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("StoreContext")));
-
-            // Add authentication services
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
+                .AddJwtBearer(options => {
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuer = true,
@@ -38,11 +31,12 @@ namespace Furnish
                         ValidateIssuerSigningKey = true,
                         ValidIssuer = Configuration["Jwt:Issuer"],
                         ValidAudience = Configuration["Jwt:Audience"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration
+                            ["Jwt:Key"]))
                     };
                 });
-
-            services.AddControllersWithViews();
+            services.AddMvc();
+            services.AddControllers();
             services.AddRazorPages();
         }
 
@@ -63,15 +57,15 @@ namespace Furnish
 
             app.UseRouting();
 
-            // Add authentication and authorization middleware
             app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                //endpoints.MapControllerRoute(
+                //    name: "default",
+                //    pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllers();
                 endpoints.MapRazorPages();
             });
         }
