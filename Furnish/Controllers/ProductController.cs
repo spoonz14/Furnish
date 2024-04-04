@@ -92,6 +92,7 @@ namespace Furnish.Controllers
 
             return View(product);
         }
+
 		private ClaimsPrincipal ValidateAndDecodeToken(string token)
 		{
 			var tokenHandler = new JwtSecurityTokenHandler();
