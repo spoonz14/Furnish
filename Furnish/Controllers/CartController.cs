@@ -39,7 +39,7 @@ namespace Furnish.Controllers
                 }
 
                 // Handle case where token is missing or empty
-                return BadRequest("Authentication failed: Token missing or invalid.");
+                return RedirectToAction("Login", "Login");
             }
             catch (Exception ex)
             {
