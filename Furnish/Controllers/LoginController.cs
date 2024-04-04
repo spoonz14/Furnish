@@ -21,14 +21,15 @@ namespace Furnish.Controllers
 
         [HttpGet("[controller]")]
         [AllowAnonymous]
-        public IActionResult Login()
+        public IActionResult Login(string returnUrl = null)
         {
+            ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
 
         [AllowAnonymous]
         [HttpPost("[controller]")]
-        public IActionResult Login(UserLogin userLogin)
+        public IActionResult Login(UserLogin userLogin, string returnUrl = null)
         {
             if (ModelState.IsValid)
             {
@@ -41,14 +42,17 @@ namespace Furnish.Controllers
                     // Create a cookie to store the token
                     Response.Cookies.Append("jwtToken", token, new CookieOptions
                     {
-                        //HttpOnly = true,
-                        //Secure = true,
                         SameSite = SameSiteMode.Strict,
                         MaxAge = TimeSpan.FromMinutes(15) // Set expiration time for the cookie
                     });
 
-                    // Pass the JWT token as a query parameter to the Index action
-                    //return RedirectToAction("Index", "Home", new { jwtToken = token });
+                    // Redirect to the returnUrl if it is not null or empty
+                    if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                    {
+                        return Redirect(returnUrl);
+                    }
+
+                    // Redirect to the default action if returnUrl is null or empty
                     return RedirectToAction("Index", "Home");
                 }
                 ModelState.AddModelError(string.Empty, "Invalid username or password");
@@ -57,6 +61,7 @@ namespace Furnish.Controllers
             // If we reach here, there were validation errors or authentication failed
             return View(userLogin); // Return the view with validation errors
         }
+
 
         private string Generate(User user)
         {

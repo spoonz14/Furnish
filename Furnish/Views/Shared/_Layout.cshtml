@@ -24,7 +24,7 @@
                         <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
                     </li>
                     <li>
-                        <a class="nav-link" asp-controller="Products" asp-action="All" asp-route-token="@ViewBag.Token">Shop</a>
+                        <a class="nav-link" asp-controller="Products" asp-action="All" >Shop</a>
                     </li>
                     @if (ViewBag.IsAuthenticated != null && ViewBag.IsAuthenticated)
                     {

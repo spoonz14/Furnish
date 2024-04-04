@@ -1,11 +1,10 @@
 ﻿@model IEnumerable<Furnish.Models.Product>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Shop";
 }
 
-<h1>Index</h1>
-
+<h1>Shop</h1>
 
 <p>
     <a asp-controller="Home" asp-action="Index">Return</a>
@@ -27,19 +26,19 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CategoryId)
-            </td>
-            <td>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.ProductId">@Html.DisplayFor(modelItem => item.Name)</a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoryId)
+                </td>
+                <td>
                     @($"${item.Price}")
-            </td>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.ProductId">Details</a>
+                </td>
+                <td>
                     @if (Context.Request.Cookies.TryGetValue("jwtToken", out string token))
                     {
                         <a id="addToCartBtn" asp-controller="Cart" asp-action="Cart" data-product-id="@item.ProductId">Add to Cart</a>
@@ -49,8 +48,8 @@
                         <a asp-controller="Login" asp-action="Login" asp-route-returnUrl="@Context.Request.Path">Add to Cart</a>
                     }
                 </td>
-        </tr>
-}
+            </tr>
+        }
     </tbody>
 </table>
 
@@ -104,7 +103,3 @@
 
     </script>
 }
-
-
-
-
