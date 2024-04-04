@@ -1,26 +1,21 @@
 ﻿using Furnish.Models;
 using Furnish.Utility;
-using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
-using Microsoft.Extensions.DependencyInjection;
-using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Http.Extensions;
-
 
 namespace Furnish.Controllers
 {
     public class CartController : Controller
     {
-        private readonly StoreContext context;
+        private readonly StoreContext _context;
 
-        public CartController(StoreContext ctx)
+        public CartController(StoreContext context)
         {
-            context = ctx;
+            _context = context;
         }
 
         [HttpGet]
@@ -29,7 +24,6 @@ namespace Furnish.Controllers
         {
             try
             {
-                //string token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
                 string token = Request.Cookies["jwtToken"];
                 Console.WriteLine("Received token: " + token); // Log token value
 
@@ -40,12 +34,7 @@ namespace Furnish.Controllers
                     bool isAuthenticated = true; // Placeholder for actual token validation logic
                     ViewBag.IsAuthenticated = isAuthenticated;
 
-                    // Retrieve cart items from TempData or create a new list
-                    var cartItemsJson = TempData["CartItems"] as string;
-                    var cartItems = string.IsNullOrEmpty(cartItemsJson)
-                        ? new List<Cart>()
-                        : JsonSerializer.Deserialize<List<Cart>>(cartItemsJson);
-
+                    var cartItems = HttpContext.Session.Get<List<Cart>>("CartItems") ?? new List<Cart>();
                     return View(cartItems);
                 }
 
@@ -59,7 +48,6 @@ namespace Furnish.Controllers
                 return StatusCode(500, "Internal server error has occurred.");
             }
         }
-
 
         [HttpPost]
         [Route("[controller]/{id}")]
@@ -75,45 +63,36 @@ namespace Furnish.Controllers
                     bool isAuthenticated = true; // Set isAuthenticated based on token validation
                     ViewBag.IsAuthenticated = isAuthenticated;
 
-                    var product = context.Products.FirstOrDefault(p => p.ProductId == id);
+                    var product = _context.Products.FirstOrDefault(p => p.ProductId == id);
 
                     if (product == null)
                     {
                         return NotFound();
                     }
 
-                    // Create a cart item using the product details
                     var cartItem = new Cart
                     {
                         ProductId = product.ProductId,
                         ProductName = product.Name,
                         Category = product.CategoryId,
+                        Price = product.Price,
                         Quantity = 1
                     };
 
-                    // Retrieve existing cart items from session or create a new list
                     var cartItems = HttpContext.Session.Get<List<Cart>>("CartItems") ?? new List<Cart>();
-
-                    // Check if the product is already in the cart
                     var existingItem = cartItems.FirstOrDefault(item => item.ProductId == id);
                     if (existingItem != null)
                     {
-                        existingItem.Quantity++; // Increment the quantity if the product is already in the cart
+                        existingItem.Quantity++;
                     }
                     else
                     {
-                        // Add the product to the cart with initial quantity
                         cartItems.Add(cartItem);
                     }
 
-                    // Store the updated cart items in session
                     HttpContext.Session.Set("CartItems", cartItems);
 
-                    // Serialize the cartItems list before saving it to TempData
-                    string serializedCartItems = JsonSerializer.Serialize(cartItems);
-                    TempData["CartItems"] = serializedCartItems; // Store the updated cart items in TempData
-                    
-                    return View(cartItems); // Display the cart view with the updated cart items
+                    return RedirectToAction("Cart");
                 }
 
                 return BadRequest("Please login to access the cart");
@@ -125,18 +104,19 @@ namespace Furnish.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("[controller]/Clear")]
         public IActionResult ClearCart()
         {
             try
             {
-                // Clear the cart by removing the CartItems from session
+                // Clear the cart items from session
                 HttpContext.Session.Remove("CartItems");
 
-                // Clear the TempData as well
+                // Clear the TempData as well (if needed)
                 TempData.Remove("CartItems");
 
+                // Redirect to the Cart action to display an empty cart
                 return RedirectToAction("Cart");
             }
             catch (Exception ex)
@@ -145,7 +125,6 @@ namespace Furnish.Controllers
                 return StatusCode(500, "Internal server error has occurred.");
             }
         }
+
     }
-
-
 }
