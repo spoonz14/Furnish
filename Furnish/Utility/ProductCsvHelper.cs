@@ -34,8 +34,8 @@ namespace Furnish.Utility
                     var product = new Product
                     {
                         Name = record.Name,
+
                         ImageUrl = record.ImageUrl,
-                        // Set other properties as needed
                     };
 
                     _context.Products.Add(product);

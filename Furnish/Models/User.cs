@@ -6,17 +6,19 @@ namespace Furnish.Models
     {
         [Key]
         public int userId { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Username is required.")]
         public string Username { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Password is required.")]
         public string Password { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Email is required.")]
         public string Email { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Role is required.")]
         public string Role { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Last Name is required.")]
+        [Display(Name = "Last Name")]
         public string Surname { get; set; }
-        [Required]
+        [Required(ErrorMessage = "First Name is required.")]
+        [Display(Name = "First Name")]
         public string GivenName { get; set; }
     }
 }
