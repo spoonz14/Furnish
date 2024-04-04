@@ -60,6 +60,17 @@ namespace Furnish.Controllers
         [HttpGet]
         public IActionResult Search()
         {
+            string token = Request.Cookies["jwtToken"];
+            Console.WriteLine("Received token: " + token); // Log token value
+
+            if (!string.IsNullOrEmpty(token))
+            {
+                ViewBag.Token = token; // Set the token value in ViewBag
+
+                bool isAuthenticated = true; // Placeholder for actual token validation logic
+                ViewBag.IsAuthenticated = isAuthenticated;
+                return View();
+            }
             return View();
         }
 

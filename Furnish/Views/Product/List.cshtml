@@ -42,7 +42,7 @@
                 <a asp-action="Details" asp-route-id="@item.ProductId">Details</a>
                     @if (Context.Request.Cookies.TryGetValue("jwtToken", out string token))
                     {
-                        <a asp-controller="Cart" asp-action="Cart" asp-route-id="@item.ProductId" asp-route-token="@ViewBag.Token">Add to Cart</a>
+                        <a id="addToCartBtn" asp-controller="Cart" asp-action="Cart" data-product-id="@item.ProductId">Add to Cart</a>
                     }
                     else
                     {
@@ -53,3 +53,58 @@
 }
     </tbody>
 </table>
+
+@section Scripts {
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            console.log('Document ready!');
+
+            // Update the selector to target the 'data-product-id' attribute
+            $('[data-product-id]').on('click', function (e) {
+                e.preventDefault();
+                console.log('Add to cart button clicked.');
+
+                // Retrieve the product ID using data attribute
+                var productId = $(this).data('product-id');
+                console.log('Product ID:', productId); // Log the productId to verify
+
+                // Get the JWT token from the cookie
+                var token = getCookie('jwtToken');
+                if (!token) {
+                    console.error('JWT token not found in cookie.');
+                    return;
+                }
+
+                $.ajax({
+                    url: '/Cart/' + productId,
+                    type: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    },
+                    success: function (response) {
+                        console.log(response);
+                        // Redirect to the cart view after adding the product
+                        window.location.href = '/Cart/' + productId;
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(xhr.responseText);
+                        // Optionally, handle the error (e.g., show error message to user)
+                    }
+                });
+            });
+
+            // Function to get cookie value by name
+            function getCookie(name) {
+                var value = "; " + document.cookie;
+                var parts = value.split("; " + name + "=");
+                if (parts.length == 2) return parts.pop().split(";").shift();
+            }
+        });
+
+    </script>
+}
+
+
+
+
