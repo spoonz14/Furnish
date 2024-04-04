@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Furnish.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20240404232244_seventh_build")]
-    partial class seventh_build
+    [Migration("20240404234305_ninth_build")]
+    partial class ninth_build
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,7 +54,7 @@ namespace Furnish.Migrations
                         {
                             ProductId = 1,
                             CategoryId = "Sofa",
-                            ImageUrl = "C:\\Projects\\Furnish\\Furnish\\wwwroot\\images\\navi-sofa.jpg",
+                            ImageUrl = "~/images/navi-sofa.jpg",
                             Name = "Navi",
                             Price = 649.99000000000001
                         },
@@ -62,6 +62,7 @@ namespace Furnish.Migrations
                         {
                             ProductId = 2,
                             CategoryId = "Bed",
+                            ImageUrl = "~/images/serta-peninsula.jpg",
                             Name = "Serta Peninsula",
                             Price = 899.99000000000001
                         },
@@ -69,6 +70,7 @@ namespace Furnish.Migrations
                         {
                             ProductId = 3,
                             CategoryId = "Table",
+                            ImageUrl = "~/images/mobili-fiver.png",
                             Name = "Mobili Fiver",
                             Price = 945.99000000000001
                         },
@@ -76,6 +78,7 @@ namespace Furnish.Migrations
                         {
                             ProductId = 4,
                             CategoryId = "Chair",
+                            ImageUrl = "~/images/ashley-cashton.png",
                             Name = "Ashley Cashton",
                             Price = 2299.9899999999998
                         },
@@ -83,6 +86,7 @@ namespace Furnish.Migrations
                         {
                             ProductId = 5,
                             CategoryId = "Sofa",
+                            ImageUrl = "~/images/llappuil.jpg",
                             Name = "Llappuil",
                             Price = 649.99000000000001
                         },
@@ -90,6 +94,7 @@ namespace Furnish.Migrations
                         {
                             ProductId = 6,
                             CategoryId = "Bed",
+                            ImageUrl = "~/images/yuhuashi.png",
                             Name = "Yuhuashi",
                             Price = 247.0
                         });

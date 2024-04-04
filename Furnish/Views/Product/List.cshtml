@@ -22,6 +22,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Price)
             </th>
+            <th>
+                Image
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -37,6 +40,9 @@
                 </td>
                 <td>
                     @($"${item.Price}")
+                </td>
+                <td>
+                    <img src="@Url.Content(item.ImageUrl)" alt="Product Image" style="max-width: 100px; max-height: 100px;" />
                 </td>
                 <td>
                     @if (Context.Request.Cookies.TryGetValue("jwtToken", out string token))

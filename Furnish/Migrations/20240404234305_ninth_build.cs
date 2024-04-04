@@ -7,7 +7,7 @@
 namespace Furnish.Migrations
 {
     /// <inheritdoc />
-    public partial class seventh_build : Migration
+    public partial class ninth_build : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -65,12 +65,12 @@ namespace Furnish.Migrations
                 columns: new[] { "ProductId", "CategoryId", "ImageUrl", "Name", "Price" },
                 values: new object[,]
                 {
-                    { 1, "Sofa", "C:\\Projects\\Furnish\\Furnish\\wwwroot\\images\\navi-sofa.jpg", "Navi", 649.99000000000001 },
-                    { 2, "Bed", null, "Serta Peninsula", 899.99000000000001 },
-                    { 3, "Table", null, "Mobili Fiver", 945.99000000000001 },
-                    { 4, "Chair", null, "Ashley Cashton", 2299.9899999999998 },
-                    { 5, "Sofa", null, "Llappuil", 649.99000000000001 },
-                    { 6, "Bed", null, "Yuhuashi", 247.0 }
+                    { 1, "Sofa", "~/images/navi-sofa.jpg", "Navi", 649.99000000000001 },
+                    { 2, "Bed", "~/images/serta-peninsula.jpg", "Serta Peninsula", 899.99000000000001 },
+                    { 3, "Table", "~/images/mobili-fiver.png", "Mobili Fiver", 945.99000000000001 },
+                    { 4, "Chair", "~/images/ashley-cashton.png", "Ashley Cashton", 2299.9899999999998 },
+                    { 5, "Sofa", "~/images/llappuil.jpg", "Llappuil", 649.99000000000001 },
+                    { 6, "Bed", "~/images/yuhuashi.png", "Yuhuashi", 247.0 }
                 });
 
             migrationBuilder.InsertData(
