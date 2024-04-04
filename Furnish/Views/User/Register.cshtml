@@ -28,9 +28,8 @@
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Role" class="control-label"></label>
-                <input asp-for="Role" class="form-control" />
-                <span asp-validation-for="Role" class="text-danger"></span>
+                <!-- Hidden input field for Role with value set to "Buyer" -->
+                <input type="hidden" asp-for="Role" value="Buyer" />
             </div>
             <div class="form-group">
                 <label asp-for="Surname" class="control-label"></label>
@@ -50,9 +49,12 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-controller="Login" asp-action="Login">Back</a>
+    <a asp-controller="Home" asp-action="Index">Return</a>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
