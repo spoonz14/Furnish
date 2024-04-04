@@ -30,7 +30,9 @@ namespace Furnish.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductId"));
 
                     b.Property<string>("CategoryId")
-                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -49,6 +51,7 @@ namespace Furnish.Migrations
                         {
                             ProductId = 1,
                             CategoryId = "Sofa",
+                            ImageUrl = "C:\\Projects\\Furnish\\Furnish\\wwwroot\\images\\navi-sofa.jpg",
                             Name = "Navi",
                             Price = 649.99000000000001
                         },
@@ -146,6 +149,27 @@ namespace Furnish.Migrations
                             Surname = "Barr",
                             Username = "cbarr"
                         });
+                });
+
+            modelBuilder.Entity("Furnish.Models.UserLogin", b =>
+                {
+                    b.Property<int>("loginId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("loginId"));
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("loginId");
+
+                    b.ToTable("UserLogin");
                 });
 #pragma warning restore 612, 618
         }

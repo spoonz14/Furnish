@@ -14,7 +14,14 @@ namespace Furnish.Utility
         {
             _context = context;
         }
-        [HttpPost]
+
+        [HttpGet("utility/csv")]
+        public async Task<IActionResult> ImportProducts()
+        {
+            return View();
+        }
+
+        [HttpPost("utility/csv")]
         public async Task<IActionResult> ImportProducts(IFormFile csvFile)
         {
 
@@ -34,8 +41,9 @@ namespace Furnish.Utility
                     var product = new Product
                     {
                         Name = record.Name,
-
-                        ImageUrl = record.ImageUrl,
+                        CategoryId = record.CategoryId,
+                        Price = record.Price,
+                        ImageUrl = record.ImageUrl
                     };
 
                     _context.Products.Add(product);
