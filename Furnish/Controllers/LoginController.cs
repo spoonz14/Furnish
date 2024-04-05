@@ -23,6 +23,7 @@ namespace Furnish.Controllers
         [AllowAnonymous]
         public IActionResult Login(string returnUrl = null, string successMessage = null)
         {
+            ModelState.Clear();
             ViewData["ReturnUrl"] = returnUrl;
             ViewBag.SuccessMessage = successMessage;
             return View();

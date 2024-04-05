@@ -49,59 +49,57 @@ namespace Furnish.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddToCart([FromForm] int id)
+        public IActionResult AddToCart(int productId)
         {
             try
             {
-                string token = Request.Cookies["jwtToken"];
-                ViewBag.Token = token; // Set the token value in ViewBag
+                // Retrieve the product with the given productId from the database
+                var product = _context.Products.FirstOrDefault(p => p.ProductId == productId);
 
-                if (!string.IsNullOrEmpty(token))
+                // If the product doesn't exist, return NotFound
+                if (product == null)
                 {
-                    bool isAuthenticated = true; // Set isAuthenticated based on token validation
-                    ViewBag.IsAuthenticated = isAuthenticated;
+                    return NotFound();
+                }
 
-                    var product = _context.Products.FirstOrDefault(p => p.ProductId == id);
+                // Retrieve the current cart items from the session
+                var cartItems = HttpContext.Session.Get<List<Cart>>("CartItems") ?? new List<Cart>();
 
-                    if (product == null)
-                    {
-                        return NotFound();
-                    }
+                // Check if the product is already in the cart
+                var existingItem = cartItems.FirstOrDefault(item => item.ProductId == productId);
 
-                    var cartItem = new Cart
+                // If the product is already in the cart, increase its quantity
+                if (existingItem != null)
+                {
+                    existingItem.Quantity++;
+                }
+                // Otherwise, add the product to the cart with quantity 1
+                else
+                {
+                    cartItems.Add(new Cart
                     {
                         ProductId = product.ProductId,
                         ProductName = product.Name,
-                        ImageUrl = product.ImageUrl,
                         Category = product.CategoryId,
                         Price = product.Price,
                         Quantity = 1
-                    };
-
-                    var cartItems = HttpContext.Session.Get<List<Cart>>("CartItems") ?? new List<Cart>();
-                    var existingItem = cartItems.FirstOrDefault(item => item.ProductId == id);
-                    if (existingItem != null)
-                    {
-                        existingItem.Quantity++;
-                    }
-                    else
-                    {
-                        cartItems.Add(cartItem);
-                    }
-
-                    HttpContext.Session.Set("CartItems", cartItems);
-
-                    return RedirectToAction("Cart");
+                    });
                 }
 
-                return BadRequest("Please login to access the cart");
+                // Update the cart items in the session
+                HttpContext.Session.Set("CartItems", cartItems);
+
+                // Redirect to the Cart action to display the updated cart
+                return RedirectToAction("Cart");
             }
             catch (Exception ex)
             {
+                // Log and handle exceptions appropriately
                 Console.WriteLine(ex.Message);
                 return StatusCode(500, "Internal server error has occurred.");
             }
         }
+
 
         [HttpGet]
         [Route("[controller]/Clear")]
