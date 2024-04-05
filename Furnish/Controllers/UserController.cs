@@ -19,7 +19,7 @@ namespace Furnish.Controllers
             _config = config;
         }
 
-        [HttpGet]
+        [HttpGet("user/profile")]
         public IActionResult Profile()
         {
             bool isAuthenticated = Request.Cookies.ContainsKey("jwtToken"); // Check if jwtToken exists in cookies
