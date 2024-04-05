@@ -76,7 +76,7 @@ namespace Furnish.Controllers
                 TempData.Keep("SuccessMessage");
 
                 // Redirect to the Home/Index page
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Login", "Login");
             }
 
             return BadRequest(ModelState); // Return error response with ModelState
