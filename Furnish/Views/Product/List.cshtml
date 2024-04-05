@@ -4,61 +4,61 @@
     ViewData["Title"] = "Shop";
 }
 
-<h1>Shop</h1>
+<!-- Start Hero Section -->
+<div class="hero">
+    <div class="container">
+        <div class="row justify-content-between">
+            <div class="col-lg-5">
+                <div class="intro-excerpt">
+                    <h1>Shop</h1>
+                    <a class="btn btn-secondary" asp-controller="Home" asp-action="Index">Return</a>
+                    <a class="btn btn-white-outline" asp-action="Search">Search</a>
+                </div>
+            </div>
+            <div class="col-lg-7">
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Hero Section -->
+<!-- Start Product Section -->
+<div class="product-section">
+    <div class="container">
+        <div class="row">
 
-<p>
-    <a asp-controller="Home" asp-action="Index">Return</a>
-    <a asp-action="Search">Search</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CategoryId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                Image
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    <a asp-action="Details" asp-route-id="@item.ProductId">@Html.DisplayFor(modelItem => item.Name)</a>
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CategoryId)
-                </td>
-                <td>
-                    @($"${item.Price}")
-                </td>
-                <td>
-                    <img src="@Url.Content(item.ImageUrl)" alt="Product Image" style="max-width: 100px; max-height: 100px;" />
-                </td>
-                <td>
-                    @if (Context.Request.Cookies.TryGetValue("jwtToken", out string token))
-                    {
-                        <a id="addToCartBtn" asp-controller="Cart" asp-action="Cart" data-product-id="@item.ProductId">Add to Cart</a>
-                    }
-                    else
-                    {
-                        <a asp-controller="Login" asp-action="Login" asp-route-returnUrl="@Context.Request.Path">Add to Cart</a>
-                    }
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+            <!-- Product Items -->
+            @foreach (var item in Model)
+            {
+                if (Context.Request.Cookies.TryGetValue("jwtToken", out string token))
+                {
+                    <div class="col-md-4 col-lg-3 mb-5">
+                        <form id="addToCartForm-@item.ProductId" asp-controller="Cart" asp-action="Cart" asp-route-productId="@item.ProductId" method="post">
+                            <input type="hidden" name="ProductId" value="@item.ProductId" />
+                            <button type="submit" class="btn btn-light-outline btn-block mb-2">Add to Cart</button>
+                        </form>
+                        <a href="@Url.Action("Details", "Product", new { id = item.ProductId })" class="product-item">
+                            <img src="@Url.Content(item.ImageUrl)" class="img-fluid product-thumbnail">
+                            <h3 class="product-title">@item.Name</h3>
+                            <strong class="product-price">$@item.Price</strong>
+                        </a>
+                    </div>
+                }
+                else
+                {
+                    <div class="col-md-4 col-lg-3 mb-5">
+                        <form asp-controller="Login" asp-action="Login" method="get">
+                            <button type="submit" class="btn btn-light-outline btn-block mb-2">Add to Cart</button>
+                        </form>
+                    </div>
+                }
+                    
+            }
+            <!-- End Product Items -->
 
+        </div>
+    </div>
+</div>
+<!-- End Product Section -->
 @section Scripts {
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
@@ -66,13 +66,21 @@
             console.log('Document ready!');
 
             // Update the selector to target the 'data-product-id' attribute
-            $('[data-product-id]').on('click', function (e) {
+            $('.add-to-cart-btn').on('click', function (e) {
                 e.preventDefault();
                 console.log('Add to cart button clicked.');
 
+                // // Check if the user is authenticated
+                // var isAuthenticated = checkAuthentication();
+                // if (!isAuthenticated) {
+                //     // Redirect the user to the login page
+                //     window.location.href = '/Account/Login';
+                //     return;
+                // }
+
                 // Retrieve the product ID using data attribute
-                var productId = $(this).data('product-id');
-                console.log('Product ID:', productId); // Log the productId to verify
+                var ProductId = $(this).data('Product-id');
+                console.log('Product ID:', ProductId); // Log the productId to verify
 
                 // Get the JWT token from the cookie
                 var token = getCookie('jwtToken');
@@ -81,8 +89,9 @@
                     return;
                 }
 
+                // Make the AJAX request to add the product to the cart
                 $.ajax({
-                    url: '/Cart/' + productId,
+                    url: '/Cart/Cart/' + productId,
                     type: 'POST',
                     headers: {
                         'Authorization': 'Bearer ' + token
@@ -90,7 +99,7 @@
                     success: function (response) {
                         console.log(response);
                         // Redirect to the cart view after adding the product
-                        window.location.href = '/Cart/' + productId;
+                        window.location.href = '/Cart/Cart' + productId;
                     },
                     error: function (xhr, status, error) {
                         console.error(xhr.responseText);
@@ -98,6 +107,14 @@
                     }
                 });
             });
+
+            // Function to check if the user is authenticated
+            function checkAuthentication() {
+                // Implement your logic here to check if the user is authenticated
+                // For demonstration purposes, returning true if the user is logged in
+                // Replace this with your actual authentication logic
+                return @User.Identity.IsAuthenticated.ToString().ToLower();
+            }
 
             // Function to get cookie value by name
             function getCookie(name) {

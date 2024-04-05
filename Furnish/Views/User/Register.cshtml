@@ -4,60 +4,65 @@
     ViewData["Title"] = "Register";
 }
 
-<h1>Register</h1>
-
-<h4>User</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Register">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Username" class="control-label"></label>
-                <input asp-for="Username" class="form-control" />
-                <span asp-validation-for="Username" class="text-danger"></span>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h4 class="card-title text-center">Register</h4>
+                    <hr />
+                    <form asp-action="Register">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="Username" class="control-label"></label>
+                            <input asp-for="Username" class="form-control" />
+                            <span asp-validation-for="Username" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Password" class="control-label"></label>
+                            <input asp-for="Password" type="password" class="form-control" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Email" class="control-label"></label>
+                            <input asp-for="Email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <!-- Hidden input field for Role with value set to "Buyer" -->
+                            <input type="hidden" asp-for="Role" value="Buyer" />
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="GivenName" class="control-label"></label>
+                            <input asp-for="GivenName" class="form-control" />
+                            <span asp-validation-for="GivenName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Surname" class="control-label"></label>
+                            <input asp-for="Surname" class="form-control" />
+                            <span asp-validation-for="Surname" class="text-danger"></span>
+                        </div>
+                        <div class="form-group text-center">
+                            <input type="submit" value="Register" class="btn btn-primary btn-block" />
+                        </div>
+                    </form>
+                    <!-- Display validation errors inline -->
+                    <div class="text-danger">
+                        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                        {
+                            <p>@error.ErrorMessage</p>
+                        }
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" type="password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <!-- Hidden input field for Role with value set to "Buyer" -->
-                <input type="hidden" asp-for="Role" value="Buyer" />
-            </div>
-            <div class="form-group">
-                <label asp-for="GivenName" class="control-label"></label>
-                <input asp-for="GivenName" class="form-control" />
-                <span asp-validation-for="GivenName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Surname" class="control-label"></label>
-                <input asp-for="Surname" class="form-control" />
-                <span asp-validation-for="Surname" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Register" class="btn btn-primary" />
-            </div>
-        </form>
-        <!-- Display validation errors inline -->
-        <div class="text-danger">
-            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
-            {
-                <p>@error.ErrorMessage</p>
-            }
         </div>
     </div>
 </div>
 
-<div>
-    <a asp-controller="Login" asp-action="Login">Back</a>
-    <a asp-controller="Home" asp-action="Index">Return</a>
+<div class="text-center mt-3">
+    <a asp-controller="Login" asp-action="Login" class="text-decoration-none">Back to Login</a>
+    <span class="mx-2">|</span>
+    <a asp-controller="Home" asp-action="Index" class="text-decoration-none">Return to Home</a>
 </div>
 
 @section Scripts {
