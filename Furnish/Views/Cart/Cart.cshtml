@@ -4,108 +4,45 @@
     ViewData["Title"] = "Cart";
 }
 
-<div class="untree_co-section before-footer-section">
-    <div class="container">
-        <div class="row mb-5">
-            <form class="col-md-12" method="post">
-                @if (Model.Count > 0)
-                {
-                    <div class="site-blocks-table">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th class="product-name">Product Name</th>
-                                    <th class="product-price">Price</th>
-                                    <th class="product-quantity">Quantity</th>
-                                    <th class="product-total">Total</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in Model)
-                                {
-                                    <tr>
-                                        <td class="product-name">
-                                            @item.ProductName
-                                        </td>
-                                        <td class="product-price">$@item.Price</td>
-                                        <td class="product-quantity">
-                                            <!-- Replace with actual quantity -->
-                                            <div class="quantity-amount">@item.Quantity</div>
-                                        </td>
-                                        <td class="product-total">$@(item.Price * item.Quantity)</td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                }
-                else
-                {
-                    <p>No items in cart.</p>
-                }
-            </form>
+<h1>Your Cart</h1>
 
-        </div>
+@if (Model.Count == 0)
+{
+    <p>Your cart is empty.</p>
 
-        <div class="row">
-            <div class="col-md-6">
-                <div class="row mb-5">
-                    <div class="col-md-6 mb-3 mb-md-0">
-                        <a asp-controller="Products" asp-action="All" class="btn btn-outline-black btn-sm btn-block">Continue Shopping</a>
-                    </div>
-                    <div class="col-md-6">
-                        <!-- Clear Cart button -->
-                        <a asp-controller="Cart" asp-action="ClearCart" class="btn btn-danger btn-sm btn-block">Clear Cart</a>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <label class="text-black h4" for="coupon">Coupon</label>
-                        <p>Enter your coupon code if you have one.</p>
-                    </div>
-                    <div class="col-md-8 mb-3 mb-md-0">
-                        <input type="text" class="form-control py-3" id="coupon" placeholder="Coupon Code">
-                    </div>
-                    <div class="col-md-4">
-                        <button class="btn btn-black">Apply Coupon</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 pl-5">
-                <div class="row justify-content-end">
-                    <div class="col-md-7">
-                        <div class="row">
-                            <div class="col-md-12 text-right border-bottom mb-5">
-                                <h3 class="text-black h4 text-uppercase">Cart Totals</h3>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <span class="text-black">Subtotal</span>
-                            </div>
-                            <div class="col-md-6 text-right">
-                                <!-- Calculate and display subtotal with limited decimal places -->
-                                <strong class="text-black">$@(Model.Sum(item => item.Price * item.Quantity).ToString("0.00"))</strong>
-                            </div>
-                        </div>
-                        <div class="row mb-5">
-                            <div class="col-md-6">
-                                <span class="text-black">Total</span>
-                            </div>
-                            <div class="col-md-6 text-right">
-                                <!-- Same as subtotal for now -->
-                                <strong class="text-black">$@(Model.Sum(item => item.Price * item.Quantity).ToString("0.00"))</strong>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-12">
-                                <a href="@Url.Action("Index", "Home")" class="btn btn-black btn-lg py-3 btn-block">Proceed To Checkout</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div>
+        <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Checkout</a>
+        <a asp-controller="Products" asp-action="All" class="btn btn-primary">Keep Shopping</a>
+        <a asp-controller="Cart" asp-action="ClearCart" class="btn btn-danger">Clear Cart</a>
     </div>
-</div>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Quantity</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ProductName</td>
+                    <td>@item.Category</td>
+                    <td>$@item.Price</td>
+                    <td>@item.Quantity</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div>
+        <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Checkout</a>
+        <a asp-controller="Products" asp-action="All" class="btn btn-primary">Keep Shopping</a>
+        <a asp-controller="Cart" asp-action="ClearCart" class="btn btn-danger">Clear Cart</a>
+    </div>
+}

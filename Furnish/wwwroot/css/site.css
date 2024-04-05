@@ -246,7 +246,6 @@ a {
 .btn {
     font-weight: 600;
     padding: 12px 30px;
-    margin-top: 20px;
     border-radius: 30px;
     color: #ffffff;
     background: #2f2f2f;
@@ -268,7 +267,6 @@ a {
     .btn.btn-primary {
         background: #3b5d50;
         border-color: #3b5d50;
-        margin-top: 20px;
     }
 
         .btn.btn-primary:hover {
@@ -280,7 +278,6 @@ a {
         color: #2f2f2f;
         background: #f9bf29;
         border-color: #f9bf29;
-        margin-top: 20px;
     }
 
         .btn.btn-secondary:hover {
@@ -298,19 +295,6 @@ a {
             border-color: white;
             color: #ffffff;
         }
-
-.btn-light-outline {
-    background: transparent;
-    border-width: 2px;
-    border-color: rgba(0, 0, 0, 0.3); /* Adjust the alpha value for lightness */
-    color: #6c757d; /* Text color */
-}
-
-    .btn-light-outline:hover {
-        background-color: rgba(0, 0, 0, 0.05); /* Light gray background color on hover */
-        color: #6c757d;
-    }
-
 
 .section-title {
     color: #2f2f2f;

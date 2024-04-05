@@ -19,6 +19,7 @@ namespace Furnish.Controllers
         }
 
         [HttpGet]
+        [Route("[controller]/{id}")]
         public IActionResult Cart()
         {
             try
@@ -30,7 +31,7 @@ namespace Furnish.Controllers
                 {
                     ViewBag.Token = token; // Set the token value in ViewBag
 
-                    bool isAuthenticated = true;
+                    bool isAuthenticated = true; // Placeholder for actual token validation logic
                     ViewBag.IsAuthenticated = isAuthenticated;
 
                     var cartItems = HttpContext.Session.Get<List<Cart>>("CartItems") ?? new List<Cart>();
@@ -49,11 +50,12 @@ namespace Furnish.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddToCart([FromForm] int id)
+        [Route("[controller]/{id}")]
+        public IActionResult Cart(int id)
         {
             try
             {
-                string token = Request.Cookies["jwtToken"];
+                string token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
                 ViewBag.Token = token; // Set the token value in ViewBag
 
                 if (!string.IsNullOrEmpty(token))
@@ -72,7 +74,6 @@ namespace Furnish.Controllers
                     {
                         ProductId = product.ProductId,
                         ProductName = product.Name,
-                        ImageUrl = product.ImageUrl,
                         Category = product.CategoryId,
                         Price = product.Price,
                         Quantity = 1

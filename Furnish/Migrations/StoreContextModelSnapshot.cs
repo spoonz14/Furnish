@@ -59,7 +59,7 @@ namespace Furnish.Migrations
                         {
                             ProductId = 2,
                             CategoryId = "Bed",
-                            ImageUrl = "~/images/WhiteBed.png",
+                            ImageUrl = "~/images/serta-peninsula.jpg",
                             Name = "Serta Peninsula",
                             Price = 899.99000000000001
                         },
@@ -67,7 +67,7 @@ namespace Furnish.Migrations
                         {
                             ProductId = 3,
                             CategoryId = "Table",
-                            ImageUrl = "~/images/table.png",
+                            ImageUrl = "~/images/mobili-fiver.png",
                             Name = "Mobili Fiver",
                             Price = 945.99000000000001
                         },
