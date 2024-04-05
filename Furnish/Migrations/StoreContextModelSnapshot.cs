@@ -51,7 +51,7 @@ namespace Furnish.Migrations
                         {
                             ProductId = 1,
                             CategoryId = "Sofa",
-                            ImageUrl = "~/images/navi-sofa.jpg",
+                            ImageUrl = "~/images/sofa.png",
                             Name = "Navi",
                             Price = 649.99000000000001
                         },
@@ -75,7 +75,7 @@ namespace Furnish.Migrations
                         {
                             ProductId = 4,
                             CategoryId = "Chair",
-                            ImageUrl = "~/images/ashley-cashton.png",
+                            ImageUrl = "~/images/product-1.png",
                             Name = "Ashley Cashton",
                             Price = 2299.9899999999998
                         },
@@ -83,7 +83,7 @@ namespace Furnish.Migrations
                         {
                             ProductId = 5,
                             CategoryId = "Sofa",
-                            ImageUrl = "~/images/llappuil.jpg",
+                            ImageUrl = "~/images/couch.png",
                             Name = "Llappuil",
                             Price = 649.99000000000001
                         },
