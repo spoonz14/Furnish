@@ -23,7 +23,17 @@ namespace Furnish.Controllers
         {
             string jwtToken = Request.Cookies["jwtToken"]; // Get the token value
             ViewBag.Token = jwtToken;
+
+            // Filter products based on the provided name and category
             var products = context.Products.AsQueryable();
+            if (!string.IsNullOrEmpty(name))
+            {
+                products = products.Where(p => p.Name.Contains(name));
+            }
+            if (!string.IsNullOrEmpty(category))
+            {
+                products = products.Where(p => p.CategoryId.Contains(category));
+            }
 
             var productList = products.ToList();
 
@@ -32,19 +42,17 @@ namespace Furnish.Controllers
                 var userClaims = ValidateAndDecodeToken(jwtToken);
                 if (userClaims != null)
                 {
-
                     bool isAuthenticated = true; // Set isAuthenticated based on token validation
                     ViewBag.IsAuthenticated = isAuthenticated;
 
-                    
-
-                    // Pass the list of products to the view
+                    // Pass the filtered list of products to the view
                     return View(productList);
                 }
             }
 
             return View(productList);
         }
+
 
 
 
@@ -57,7 +65,7 @@ namespace Furnish.Controllers
             {
                 ViewBag.Token = token; // Set the token value in ViewBag
 
-                bool isAuthenticated = true; // Placeholder for actual token validation logic
+                bool isAuthenticated = true;
                 ViewBag.IsAuthenticated = isAuthenticated;
                 return View();
             }

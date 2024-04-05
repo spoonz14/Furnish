@@ -14,8 +14,14 @@
     </div>
     <div class="form-group">
         <label for="category">Product Category:</label>
-        <input type="text" name="category" class="form-control" />
+        <select name="category" class="form-control">
+            <option value="">-- Select Category --</option>
+            <option value="Sofa">Sofa</option>
+            <option value="Bed">Bed</option>
+            <option value="Table">Table</option>
+            <option value="Chair">Chair</option>
+        </select>
     </div>
     <button type="submit" class="btn btn-primary">Search</button>
-    <a asp-controller="Product" asp-action="All" class="btn btn-primary">Return</a>
+    <a asp-controller="Product" asp-action="List" class="btn btn-primary">Return</a>
 </form>
