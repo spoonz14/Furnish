@@ -1,0 +1,22 @@
+﻿@model Furnish.Models.User
+
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<h1>User Profile</h1>
+
+@if (ViewBag.IsAuthenticated)
+{
+    <div>
+        <h4>Welcome, @Model.Username!</h4>
+        <p>First Name: @Model.GivenName</p>
+        <p>Last Name: @Model.Surname</p>
+        <p>Email: @Model.Email</p>
+   
+    </div>
+}
+else
+{
+    <p>Please log in to view your profile.</p>
+}
