@@ -15,6 +15,12 @@ namespace Furnish.Controllers
         }
 
         [HttpGet]
+        public IActionResult Profile()
+        {
+            return View();
+        }
+
+        [HttpGet]
         public IActionResult Register()
         {
             return View();
@@ -32,9 +38,6 @@ namespace Furnish.Controllers
                     ModelState.AddModelError("Username", "Username is already taken.");
                     return BadRequest(ModelState); // Return error response with ModelState
                 }
-
-                // You can hash the password here before storing it
-                // newUser.Password = HashPassword(newUser.Password);
 
                 // Add the new user to the database
                 context.Users.Add(newUser);
