@@ -75,12 +75,13 @@ namespace Furnish.Controllers
                 // Clear TempData after displaying the message
                 TempData.Keep("SuccessMessage");
 
-                // Redirect to the Home/Index page
-                return RedirectToAction("Login", "Login");
+                // Redirect to the Login action of LoginController with the success message
+                return RedirectToAction("Login", "Login", new { successMessage = TempData["SuccessMessage"] });
             }
 
             return BadRequest(ModelState); // Return error response with ModelState
         }
+
 
         private ClaimsPrincipal ValidateAndDecodeToken(string token)
         {

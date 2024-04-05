@@ -2,19 +2,12 @@
     ViewBag.Title = "Home";
 }
 
-@if (Model != null)
+@if (!string.IsNullOrEmpty(ViewBag.SuccessMessage))
 {
-	<p>Username: @Model.Username</p>
-	<p>Email: @Model.Email</p>
-	<p>Role: @Model.Role</p>
-	<p>Surname: @Model.Surname</p>
-	<p>Given Name: @Model.GivenName</p>
+	<div class="alert alert-success" role="alert">
+		@Html.Raw(ViewBag.SuccessMessage)
+	</div>
 }
-else
-{
-	<p>No user information available.</p>
-} 
-
 <div class="hero">
     <div class="container">
         <div class="row justify-content-between">

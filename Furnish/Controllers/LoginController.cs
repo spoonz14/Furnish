@@ -21,9 +21,10 @@ namespace Furnish.Controllers
 
         [HttpGet("[controller]")]
         [AllowAnonymous]
-        public IActionResult Login(string returnUrl = null)
+        public IActionResult Login(string returnUrl = null, string successMessage = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
+            ViewBag.SuccessMessage = successMessage;
             return View();
         }
 
@@ -51,9 +52,14 @@ namespace Furnish.Controllers
                     {
                         return Redirect(returnUrl);
                     }
+                    // Set a success message in TempData
+                    TempData["SuccessMessage"] = "Login Successful!";
+
+                    // Clear TempData after displaying the message
+                    TempData.Keep("SuccessMessage");
 
                     // Redirect to the default action if returnUrl is null or empty
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Home", new { successMessage = TempData["SuccessMessage"] });
                 }
                 ModelState.AddModelError(string.Empty, "Invalid username or password");
             }

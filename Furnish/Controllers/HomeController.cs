@@ -16,10 +16,11 @@ namespace Furnish.Controllers
             _config = config;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string successMessage = null)
         {
             bool isAuthenticated = Request.Cookies.ContainsKey("jwtToken"); // Check if jwtToken exists in cookies
             ViewBag.IsAuthenticated = isAuthenticated; // Set ViewBag.IsAuthenticated
+            ViewBag.SuccessMessage = successMessage;
 
             if (isAuthenticated)
             {

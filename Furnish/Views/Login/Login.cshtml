@@ -5,7 +5,12 @@
 }
 
 <h1>Login</h1>
-
+@if (!string.IsNullOrEmpty(ViewBag.SuccessMessage))
+{
+    <div class="alert alert-success" role="alert">
+        @Html.Raw(ViewBag.SuccessMessage)
+    </div>
+}
 <h4>User Login</h4>
 <p>Don't have an account? <a asp-controller="User" asp-action="Register">Click here</a>.</p>
 <hr />
