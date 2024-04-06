@@ -29,7 +29,7 @@
                                         </td>
                                         <td class="product-price">$@item.Price</td>
                                         <td class="product-quantity">
-                                            <!-- Replace with actual quantity -->
+                                           
                                             <div class="quantity-amount">@item.Quantity</div>
                                         </td>
                                         <td class="product-total">$@(item.Price * item.Quantity)</td>
@@ -54,7 +54,7 @@
                         <a asp-controller="Products" asp-action="All" class="btn btn-outline-black btn-sm btn-block">Continue Shopping</a>
                     </div>
                     <div class="col-md-6">
-                        <!-- Clear Cart button -->
+                    
                         <a asp-controller="Cart" asp-action="ClearCart" class="btn btn-danger btn-sm btn-block">Clear Cart</a>
                     </div>
                 </div>
@@ -84,7 +84,7 @@
                                 <span class="text-black">Subtotal</span>
                             </div>
                             <div class="col-md-6 text-right">
-                                <!-- Calculate and display subtotal with limited decimal places -->
+                                <!-- Calculate and display subtotal -->
                                 <strong class="text-black">$@(Model.Sum(item => item.Price * item.Quantity).ToString("0.00"))</strong>
                             </div>
                         </div>
@@ -93,7 +93,7 @@
                                 <span class="text-black">Total</span>
                             </div>
                             <div class="col-md-6 text-right">
-                                <!-- Same as subtotal for now -->
+                              
                                 <strong class="text-black">$@(Model.Sum(item => item.Price * item.Quantity).ToString("0.00"))</strong>
                             </div>
                         </div>

@@ -67,7 +67,7 @@ namespace Furnish.Controllers
 
                 // Add the new user to the database
                 context.Users.Add(newUser);
-                context.SaveChanges(); // Save changes synchronously
+                context.SaveChanges(); // Save changes
 
                 // Set a success message in TempData
                 TempData["SuccessMessage"] = "Registration Successful";
@@ -83,6 +83,7 @@ namespace Furnish.Controllers
         }
 
 
+        //Token decoder used for displaying user profile information
         private ClaimsPrincipal ValidateAndDecodeToken(string token)
         {
             var tokenHandler = new JwtSecurityTokenHandler();

@@ -42,7 +42,7 @@ namespace Furnish.Controllers
             }
 
             // If token is invalid or not provided, redirect to login
-            return View() ; // Adjust the redirect action and controller as per your application setup
+            return View() ; 
         }
 
         private ClaimsPrincipal ValidateAndDecodeToken(string token)

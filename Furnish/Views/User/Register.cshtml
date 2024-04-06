@@ -29,7 +29,7 @@
                             <span asp-validation-for="Email" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <!-- Hidden input field for Role with value set to "Buyer" -->
+                         
                             <input type="hidden" asp-for="Role" value="Buyer" />
                         </div>
                         <div class="form-group">
@@ -46,7 +46,7 @@
                             <input type="submit" value="Register" class="btn btn-primary btn-block" />
                         </div>
                     </form>
-                    <!-- Display validation errors inline -->
+                    <!-- Display validation errors -->
                     <div class="text-danger">
                         @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
                         {

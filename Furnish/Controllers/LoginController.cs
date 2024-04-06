@@ -65,7 +65,7 @@ namespace Furnish.Controllers
                 ModelState.AddModelError(string.Empty, "Invalid username or password");
             }
 
-            // If we reach here, there were validation errors or authentication failed
+            //validation errors or authentication failed
             return View(userLogin); // Return the view with validation errors
         }
 
@@ -109,8 +109,6 @@ namespace Furnish.Controllers
             // Clear the JWT token cookie by setting its expiration to a past date
             Response.Cookies.Delete("jwtToken");
 
-            // Alternatively, you can set the cookie's expiration to a past date
-            // Response.Cookies.Append("jwtToken", "", new Microsoft.AspNetCore.Http.CookieOptions { Expires = DateTime.Now.AddDays(-1) });
 
             return RedirectToAction("Index", "Home");
         }

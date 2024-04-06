@@ -12,7 +12,7 @@ namespace Furnish
 		{
 			var host = CreateHostBuilder(args).Build();
 
-			// Migrate the database if needed
+		
 			using (var scope = host.Services.CreateScope())
 			{
 				var services = scope.ServiceProvider;
