@@ -3,7 +3,9 @@
 @{
     ViewData["Title"] = "Shop";
 }
-
+<form asp-controller="Product" asp-action="Search" method="get">
+    <button type="submit" class="btn btn-light-outline btn-block mb-2">Search</button>
+</form>
 <div class="product-section">
     <div class="container">
         <div class="row">
