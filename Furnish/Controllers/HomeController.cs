@@ -7,8 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Furnish.Controllers
 {
-    public class HomeController : Controller
-    {
+    public class HomeController : Controller // Controller class for managing home operations
+	{
         private readonly IConfiguration _config;
 
         public HomeController(IConfiguration config)
@@ -16,20 +16,21 @@ namespace Furnish.Controllers
             _config = config;
         }
 
-        public IActionResult Index(string successMessage = null)
+		// Action method for handling the home page request
+		public IActionResult Index(string successMessage = null)
         {
             bool isAuthenticated = Request.Cookies.ContainsKey("jwtToken"); // Check if jwtToken exists in cookies
             ViewBag.IsAuthenticated = isAuthenticated; // Set ViewBag.IsAuthenticated
             ViewBag.SuccessMessage = successMessage;
 
-            if (isAuthenticated)
-            {
+            if (isAuthenticated) // Check if user is authenticated
+			{
                 string token = Request.Cookies["jwtToken"]; // Get the token value
-                var userClaims = ValidateAndDecodeToken(token);
-                if (userClaims != null)
-                {
-                    var currentUser = new User
-                    {
+                var userClaims = ValidateAndDecodeToken(token); // Validate and decode the token
+				if (userClaims != null) // Check if token is valid
+				{
+                    var currentUser = new User // Create user object with claims
+					{
                         Username = userClaims.FindFirst(ClaimTypes.NameIdentifier)?.Value,
                         Email = userClaims.FindFirst(ClaimTypes.Email)?.Value,
                         Role = userClaims.FindFirst(ClaimTypes.Role)?.Value,
@@ -37,21 +38,22 @@ namespace Furnish.Controllers
                         GivenName = userClaims.FindFirst(ClaimTypes.GivenName)?.Value
                     };
 
-                    return View(currentUser);
-                }
+                    return View(currentUser); // Return view with current user data
+				}
             }
 
             // If token is invalid or not provided, redirect to login
             return View() ; 
         }
 
-        private ClaimsPrincipal ValidateAndDecodeToken(string token)
+		// Method to validate and decode JWT token
+		private ClaimsPrincipal ValidateAndDecodeToken(string token)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_config["Jwt:Key"]);
+            var key = Encoding.ASCII.GetBytes(_config["Jwt:Key"]); // Get the key from config
 
-            SecurityToken validatedToken;
-            var claimsPrincipal = tokenHandler.ValidateToken(token, new TokenValidationParameters
+			SecurityToken validatedToken; // Variable to hold validated token
+			var claimsPrincipal = tokenHandler.ValidateToken(token, new TokenValidationParameters
             {
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(key),

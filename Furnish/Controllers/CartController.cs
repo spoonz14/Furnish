@@ -9,31 +9,31 @@ using System.Text.Json;
 
 namespace Furnish.Controllers
 {
-    public class CartController : Controller
-    {
-        private readonly StoreContext _context;
+    public class CartController : Controller // Controller class for managing cart operations
+	{
+        private readonly StoreContext _context; // Database context for store
 
-        public CartController(StoreContext context)
+		public CartController(StoreContext context)
         {
             _context = context;
         }
 
-        [HttpGet]
-        public IActionResult Cart()
+        [HttpGet] // HTTP GET method for retrieving cart
+		public IActionResult Cart()
         {
             try
             {
-                string token = Request.Cookies["jwtToken"];
-                Console.WriteLine("Received token: " + token); // Log token value
+                string token = Request.Cookies["jwtToken"]; // Retrieving JWT token from cookies
+				Console.WriteLine("Received token: " + token); // Log token value
 
-                if (!string.IsNullOrEmpty(token))
-                {
+                if (!string.IsNullOrEmpty(token)) // Checking if token is not null or empty
+				{
                     ViewBag.Token = token; // Set the token value in ViewBag
 
                     bool isAuthenticated = true;
-                    ViewBag.IsAuthenticated = isAuthenticated;
+                    ViewBag.IsAuthenticated = isAuthenticated; // Setting authentication status in ViewBag
 
-                    var cartItems = HttpContext.Session.Get<List<Cart>>("CartItems") ?? new List<Cart>();
+					var cartItems = HttpContext.Session.Get<List<Cart>>("CartItems") ?? new List<Cart>();
                     return View(cartItems);
                 }
 
@@ -48,8 +48,8 @@ namespace Furnish.Controllers
             }
         }
 
-        [HttpPost]
-        public IActionResult AddToCart(int productId)
+        [HttpPost] // HTTP POST method for adding product to cart
+		public IActionResult AddToCart(int productId)
         {
             try
             {

@@ -19,7 +19,8 @@ namespace Furnish.Controllers
             _config = config;
         }
 
-        [HttpGet("user/profile")]
+		// HTTP GET method for displaying user profile
+		[HttpGet("user/profile")]
         public IActionResult Profile()
         {
             bool isAuthenticated = Request.Cookies.ContainsKey("jwtToken"); // Check if jwtToken exists in cookies
@@ -31,8 +32,8 @@ namespace Furnish.Controllers
                 var userClaims = ValidateAndDecodeToken(token);
                 if (userClaims != null)
                 {
-                    var currentUser = new User
-                    {
+                    var currentUser = new User // Create user object with claims
+					{
                         Username = userClaims.FindFirst(ClaimTypes.NameIdentifier)?.Value,
                         Email = userClaims.FindFirst(ClaimTypes.Email)?.Value,
                         Role = userClaims.FindFirst(ClaimTypes.Role)?.Value,
@@ -43,16 +44,18 @@ namespace Furnish.Controllers
                     return View(currentUser);
                 }
             }
-            return RedirectToAction("Login", "Login");
-        }
+            return RedirectToAction("Login", "Login"); // Redirect to login if token is invalid or not provided
+		}
 
-        [HttpGet]
+		// HTTP GET method for displaying user registration form
+		[HttpGet]
         public IActionResult Register()
         {
             return View();
         }
 
-        [HttpPost]
+		// HTTP POST method for handling user registration form submission
+		[HttpPost]
         public IActionResult Register(User newUser)
         {
             if (ModelState.IsValid)

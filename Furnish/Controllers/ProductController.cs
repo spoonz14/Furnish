@@ -7,8 +7,8 @@ using System.Text;
 
 namespace Furnish.Controllers
 {
-    public class ProductController : Controller
-    {
+    public class ProductController : Controller // Controller class for managing product operations
+	{
         private StoreContext context;
 		private readonly IConfiguration _config;
 
@@ -18,7 +18,8 @@ namespace Furnish.Controllers
 			context = ctx;
         }
 
-        [Route("[controller]s/All")]
+		// Action method for listing products with optional filtering
+		[Route("[controller]s/All")]
         public IActionResult List(string name = null, string category = null)
         {
             string jwtToken = Request.Cookies["jwtToken"]; // Get the token value
@@ -55,37 +56,39 @@ namespace Furnish.Controllers
 
 
 
-
-        [HttpGet]
+		// HTTP GET method for displaying search form
+		[HttpGet]
         public IActionResult Search()
         {
-            string token = Request.Cookies["jwtToken"];
+            string token = Request.Cookies["jwtToken"]; // Get the token value from cookies
 
-            if (!string.IsNullOrEmpty(token))
+			if (!string.IsNullOrEmpty(token))
             {
                 ViewBag.Token = token; // Set the token value in ViewBag
 
                 bool isAuthenticated = true;
-                ViewBag.IsAuthenticated = isAuthenticated;
-                return View();
+                ViewBag.IsAuthenticated = isAuthenticated; // Set isAuthenticated value in ViewBag
+				return View();
             }
-            return View();
-        }
+            return View(); // Return search view
+		}
 
-        [HttpPost]
+		// HTTP POST method for handling search form submission
+		[HttpPost]
         public IActionResult Search(string name, string category)
         {
             return RedirectToAction("List", new { name, category });
         }
 
-        [HttpGet]
+		// HTTP GET method for displaying product details
+		[HttpGet]
         [Route("[controller]s/{id}")]
         public IActionResult Details(int id)
         {
             var product = context.Products.FirstOrDefault(p => p.ProductId == id);
-            string token = Request.Cookies["jwtToken"];
+            string token = Request.Cookies["jwtToken"]; // Get the token value from cookies
 
-            if (!string.IsNullOrEmpty(token))
+			if (!string.IsNullOrEmpty(token))
             {
                 ViewBag.Token = token; // Set the token value in ViewBag
 
@@ -101,10 +104,11 @@ namespace Furnish.Controllers
             return View(product);
         }
 
+		// Method to validate and decode JWT token
 		private ClaimsPrincipal ValidateAndDecodeToken(string token)
 		{
 			var tokenHandler = new JwtSecurityTokenHandler();
-			var key = Encoding.ASCII.GetBytes(_config["Jwt:Key"]);
+			var key = Encoding.ASCII.GetBytes(_config["Jwt:Key"]); // Get the key from config
 
 			SecurityToken validatedToken;
 			var claimsPrincipal = tokenHandler.ValidateToken(token, new TokenValidationParameters
