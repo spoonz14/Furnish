@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Furnish.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20240405032833_sixteen")]
+    [Migration("20240408024254_sixteen")]
     partial class sixteen
     {
         /// <inheritdoc />
@@ -161,21 +161,14 @@ namespace Furnish.Migrations
 
             modelBuilder.Entity("Furnish.Models.UserLogin", b =>
                 {
-                    b.Property<int>("loginId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("loginId"));
+                    b.Property<string>("Username")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("loginId");
+                    b.HasKey("Username");
 
                     b.ToTable("UserLogin");
                 });

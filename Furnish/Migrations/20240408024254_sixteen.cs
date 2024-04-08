@@ -32,14 +32,12 @@ namespace Furnish.Migrations
                 name: "UserLogin",
                 columns: table => new
                 {
-                    loginId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Username = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserLogin", x => x.loginId);
+                    table.PrimaryKey("PK_UserLogin", x => x.Username);
                 });
 
             migrationBuilder.CreateTable(

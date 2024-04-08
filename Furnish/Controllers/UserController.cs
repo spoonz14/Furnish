@@ -62,12 +62,13 @@ namespace Furnish.Controllers
             {
                 // Check if the username is already taken
                 var existingUser = context.Users.FirstOrDefault(u => u.Username == newUser.Username);
-                if (existingUser != null)
-                {
-                    ModelState.AddModelError("Username", "Username is already taken.");
-                    return BadRequest(ModelState); // Return error response with ModelState
-                }
-
+        if (existingUser != null)
+        {
+            TempData["ErrorMessage"] = "Username is already taken.";
+            TempData.Keep("ErrorMessage");
+            ViewData["ShowErrorMessage"] = true; // Set ViewData to show error message in registration view
+            return View(newUser); // Return back to the registration view
+        }
                 // Add the new user to the database
                 context.Users.Add(newUser);
                 context.SaveChanges(); // Save changes

@@ -158,21 +158,14 @@ namespace Furnish.Migrations
 
             modelBuilder.Entity("Furnish.Models.UserLogin", b =>
                 {
-                    b.Property<int>("loginId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("loginId"));
+                    b.Property<string>("Username")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("loginId");
+                    b.HasKey("Username");
 
                     b.ToTable("UserLogin");
                 });

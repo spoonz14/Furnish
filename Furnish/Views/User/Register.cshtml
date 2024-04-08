@@ -11,6 +11,12 @@
                 <div class="card-body">
                     <h4 class="card-title text-center">Register</h4>
                     <hr />
+                    @if (TempData["ErrorMessage"] != null && ViewData["ShowErrorMessage"] != null && (bool)ViewData["ShowErrorMessage"] == true)
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            @TempData["ErrorMessage"]
+                        </div>
+                    }
                     <form asp-action="Register">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="form-group">
