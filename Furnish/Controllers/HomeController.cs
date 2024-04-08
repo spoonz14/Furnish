@@ -19,13 +19,14 @@ namespace Furnish.Controllers
 		// Action method for handling the home page request
 		public IActionResult Index(string successMessage = null)
         {
-            bool isAuthenticated = Request.Cookies.ContainsKey("jwtToken"); // Check if jwtToken exists in cookies
-            ViewBag.IsAuthenticated = isAuthenticated; // Set ViewBag.IsAuthenticated
+            bool hasJwtToken = HttpContext.Request.Cookies.ContainsKey("jwtToken");
+            
             ViewBag.SuccessMessage = successMessage;
 
-            if (isAuthenticated) // Check if user is authenticated
+            if (hasJwtToken) // Check if user is logged in
 			{
-                string token = Request.Cookies["jwtToken"]; // Get the token value
+                ViewData["HasJwtToken"] = hasJwtToken;
+                string token = Request.Cookies["jwtToken"]; // Get the token value in string form
                 var userClaims = ValidateAndDecodeToken(token); // Validate and decode the token
 				if (userClaims != null) // Check if token is valid
 				{

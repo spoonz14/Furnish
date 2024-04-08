@@ -18,14 +18,18 @@
 					</div>
 				</div>
 			</div>
-
+@if (ViewBag.IsAuthenticated != null && ViewBag.IsAuthenticated)
+{
+    <form asp-controller="ProductCsvHelper" asp-action="ImportProducts" method="get">
+        <button type="submit" class="btn btn-secondary me-2">Import CSV File</button>
+    </form>
+}
 <form asp-controller="Product" asp-action="Search" method="get">
     <button type="submit" class="btn btn-secondary me-2">Search</button>
 </form>
 <div class="product-section">
     <div class="container">
         <div class="row">
-            <!--foreach loop that iterates over each product found in database and displays accordingly on view-->
             @foreach (var item in Model)
             {
                 <div class="col-md-4 col-lg-3 mb-5">

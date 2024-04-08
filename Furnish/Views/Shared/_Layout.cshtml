@@ -26,7 +26,7 @@
                     <li>
                         <a class="nav-link" asp-controller="Products" asp-action="All" >Shop</a>
                     </li>
-                    @if (ViewBag.IsAuthenticated != null && ViewBag.IsAuthenticated)
+                    @if (ViewData["HasJwtToken"] != null && (bool)ViewData["HasJwtToken"])
                     {
                         <li>
                             <a class="nav-link" asp-controller="Login" asp-action="Logout">Logout</a>

@@ -15,7 +15,7 @@
                 </div>
                 <!--Dynamically displaying user data in profile-->
                 <div class="card-body">
-                    @if (ViewBag.IsAuthenticated)
+                    @if (ViewData["HasJwtToken"] != null && (bool)ViewData["HasJwtToken"])
                     {
                         <h5 class="card-title text-center mb-4">Welcome, @Model.Username!</h5>
                         <ul class="list-group list-group-flush text-center">

@@ -23,15 +23,15 @@ namespace Furnish.Controllers
         {
             try
             {
-                string token = Request.Cookies["jwtToken"]; // Retrieving JWT token from cookies
-				Console.WriteLine("Received token: " + token); // Log token value
+                bool hasJwtToken = HttpContext.Request.Cookies.ContainsKey("jwtToken");
+                
 
-                if (!string.IsNullOrEmpty(token)) // Checking if token is not null or empty
-				{
-                    ViewBag.Token = token; // Set the token value in ViewBag
+                if (hasJwtToken) // Check if user is logged in
+                {
+                    ViewData["HasJwtToken"] = hasJwtToken;
 
-                    bool isAuthenticated = true;
-                    ViewBag.IsAuthenticated = isAuthenticated; // Setting authentication status in ViewBag
+                    //bool isAuthenticated = true;
+                    //ViewBag.IsAuthenticated = isAuthenticated; // Setting authentication status in ViewBag
 
 					var cartItems = HttpContext.Session.Get<List<Cart>>("CartItems") ?? new List<Cart>();
                     return View(cartItems);
@@ -100,6 +100,34 @@ namespace Furnish.Controllers
             }
         }
 
+
+        [HttpGet]
+        [Route("[controller]/Checkout")]
+        public IActionResult Checkout()
+        {
+            try
+            {
+                // Clear the cart items from session
+                HttpContext.Session.Remove("CartItems");
+
+                // Clear the TempData as well (if needed)
+                TempData.Remove("CartItems");
+
+                // Set a success message in TempData
+                TempData["SuccessMessage"] = "Order Confirmed.";
+
+                // Clear TempData after displaying the message
+                TempData.Keep("SuccessMessage");
+
+                // Redirect to the Cart action to display an empty cart
+                return RedirectToAction("Index", "Home", new { successMessage = TempData["SuccessMessage"] });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(500, "Internal server error has occurred.");
+            }
+        }
 
         [HttpGet]
         [Route("[controller]/Clear")]

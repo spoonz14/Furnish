@@ -23,11 +23,12 @@ namespace Furnish.Controllers
 		[HttpGet("user/profile")]
         public IActionResult Profile()
         {
-            bool isAuthenticated = Request.Cookies.ContainsKey("jwtToken"); // Check if jwtToken exists in cookies
-            ViewBag.IsAuthenticated = isAuthenticated; // Set ViewBag.IsAuthenticated
+            bool hasJwtToken = HttpContext.Request.Cookies.ContainsKey("jwtToken");
+            
 
-            if (isAuthenticated)
+            if (hasJwtToken)
             {
+                ViewData["HasJwtToken"] = hasJwtToken;
                 string token = Request.Cookies["jwtToken"]; // Get the token value
                 var userClaims = ValidateAndDecodeToken(token);
                 if (userClaims != null)
