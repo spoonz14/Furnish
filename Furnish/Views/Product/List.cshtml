@@ -24,9 +24,18 @@
         <button type="submit" class="btn btn-secondary me-2">Import CSV File</button>
     </form>
 }
-<form asp-controller="Product" asp-action="Search" method="get">
-    <button type="submit" class="btn btn-secondary me-2">Search</button>
-</form>
+@if (ViewBag.Name != null || ViewBag.Category != null)
+{
+    <form asp-controller="Product" asp-action="List" method="get">
+        <button type="submit" class="btn btn-secondary me-2">Return</button>
+    </form>
+}
+else
+{
+    <form asp-controller="Product" asp-action="Search" method="get">
+        <button type="submit" class="btn btn-secondary me-2">Search</button>
+    </form>
+}
 <div class="product-section">
     <div class="container">
         <div class="row">

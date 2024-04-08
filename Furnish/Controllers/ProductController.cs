@@ -22,6 +22,8 @@ namespace Furnish.Controllers
 		[Route("[controller]s/All")]
         public IActionResult List(string name = null, string category = null)
         {
+            ViewBag.Name = name;
+            ViewBag.Category = category;
             string jwtToken = Request.Cookies["jwtToken"]; // Get the token value
             ViewBag.Token = jwtToken;
             bool hasJwtToken = HttpContext.Request.Cookies.ContainsKey("jwtToken");
@@ -57,7 +59,7 @@ namespace Furnish.Controllers
 
                     if (currentUser.Role == "Administrator")
                     {
-                        bool isAuthenticated = true; // Set isAuthenticated based on token validation
+                        bool isAuthenticated = true; // Set isAuthenticated based on role validation
                         ViewBag.IsAuthenticated = isAuthenticated;
                     }
 
@@ -75,14 +77,11 @@ namespace Furnish.Controllers
 		[HttpGet]
         public IActionResult Search()
         {
-            string token = Request.Cookies["jwtToken"]; // Get the token value from cookies
+            bool hasJwtToken = HttpContext.Request.Cookies.ContainsKey("jwtToken");
 
-			if (!string.IsNullOrEmpty(token))
+            if (hasJwtToken)
             {
-                ViewBag.Token = token; // Set the token value in ViewBag
-
-                bool isAuthenticated = true;
-                ViewBag.IsAuthenticated = isAuthenticated; // Set isAuthenticated value in ViewBag
+                ViewData["HasJwtToken"] = hasJwtToken;
 				return View();
             }
             return View(); // Return search view
