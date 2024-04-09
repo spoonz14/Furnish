@@ -27,11 +27,12 @@ namespace Furnish.Utility
         [HttpGet("utility/csv")]
         public async Task<IActionResult> ImportProducts()
         {
-            bool isAuthenticated = Request.Cookies.ContainsKey("jwtToken"); // Check if jwtToken exists in cookies
-            
+            bool hasJwtToken = HttpContext.Request.Cookies.ContainsKey("jwtToken");
 
-            if (isAuthenticated) // Check if user is authenticated
+
+            if (hasJwtToken) // Check if user is logged in
             {
+                ViewData["HasJwtToken"] = hasJwtToken;
                 string token = Request.Cookies["jwtToken"]; // Get the token value
                 var userClaims = ValidateAndDecodeToken(token); // Validate and decode the token
                 if (userClaims != null) // Check if token is valid
@@ -47,6 +48,7 @@ namespace Furnish.Utility
 
                     if (currentUser.Role == "Administrator")
                     {
+                        bool isAuthenticated = true;
                         ViewBag.IsAuthenticated = isAuthenticated;
                         return View();
                     }
