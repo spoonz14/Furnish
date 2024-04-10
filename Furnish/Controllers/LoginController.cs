@@ -9,7 +9,7 @@ using System.Text;
 namespace Furnish.Controllers
 {
     public class LoginController : Controller // Controller class for managing login operations
-	{
+    {
         private IConfiguration _config;
         private StoreContext context;
 
@@ -19,19 +19,19 @@ namespace Furnish.Controllers
             context = ctx;
         }
 
-		// HTTP GET method for displaying login page
-		[HttpGet("[controller]")]
+        // HTTP GET method for displaying login page
+        [HttpGet("[controller]")]
         [AllowAnonymous]
         public IActionResult Login(string returnUrl = null, string successMessage = null)
         {
             ModelState.Clear(); // Clearing model state
-			ViewData["ReturnUrl"] = returnUrl;
+            ViewData["ReturnUrl"] = returnUrl;
             ViewBag.SuccessMessage = successMessage;
             return View();
         }
 
-		// HTTP POST method for handling login form submission
-		[AllowAnonymous]
+        // HTTP POST method for handling login form submission
+        [AllowAnonymous]
         [HttpPost("[controller]")]
         public IActionResult Login(UserLogin userLogin, string returnUrl = null)
         {
@@ -39,12 +39,12 @@ namespace Furnish.Controllers
             {
                 var user = Authenticate(userLogin); // Authenticate user
 
-				if (user != null) // Check if user authentication is successful
-				{
+                if (user != null) // Check if user authentication is successful
+                {
                     var token = Generate(user); // Generate JWT token for authenticated user
 
-					// Create a cookie to store the token
-					Response.Cookies.Append("jwtToken", token, new CookieOptions
+                    // Create a cookie to store the token
+                    Response.Cookies.Append("jwtToken", token, new CookieOptions
                     {
                         SameSite = SameSiteMode.Strict,
                         MaxAge = TimeSpan.FromMinutes(15) // Set expiration time for the cookie
@@ -72,8 +72,8 @@ namespace Furnish.Controllers
         }
 
 
-		// Method to generate JWT token for authenticated user
-		private string Generate(User user)
+        // Method to generate JWT token for authenticated user
+        private string Generate(User user)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -82,32 +82,33 @@ namespace Furnish.Controllers
             {
             new Claim(ClaimTypes.NameIdentifier, user.Username),
             new Claim(ClaimTypes.Email, user.Email),
+            new Claim(ClaimTypes.Email, user.Email),
             new Claim(ClaimTypes.Role, user.Role),
             new Claim(ClaimTypes.Surname, user.Surname),
             new Claim(ClaimTypes.GivenName, user.GivenName)
         };
 
             var token = new JwtSecurityToken(_config["Jwt:Issuer"], // Create JWT token
-				_config["Jwt:Audience"],
+                _config["Jwt:Audience"],
                 claims,
                 expires: DateTime.Now.AddMinutes(15),
                 signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token); // Return the JWT token
-		}
+        }
 
-		// Method to authenticate user
-		private User Authenticate(UserLogin userLogin)
+        // Method to authenticate user
+        private User Authenticate(UserLogin userLogin)
         {
             var currentUser = context.Users.FirstOrDefault(o => o.Username.ToLower() ==
             userLogin.Username.ToLower() && o.Password == userLogin.Password); // Querying user from database
 
-			if (currentUser != null)
+            if (currentUser != null)
             {
                 return currentUser; // Return authenticated user
-			}
+            }
             return null;  // Return null if authentication fails
-		}
+        }
 
         public IActionResult Logout()
         {
