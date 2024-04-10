@@ -35,7 +35,7 @@ namespace Furnish.Controllers
                     var currentUser = new User // Create user object with claims
                     {
                         Username = userClaims.FindFirst(ClaimTypes.NameIdentifier)?.Value,
-                        Address = userClaims.FindFirst(ClaimTypes.Address)?.Value,
+                        Address = userClaims.FindFirst(ClaimTypes.StreetAddress)?.Value,
                         Email = userClaims.FindFirst(ClaimTypes.Email)?.Value,
                         Role = userClaims.FindFirst(ClaimTypes.Role)?.Value,
                         Surname = userClaims.FindFirst(ClaimTypes.Surname)?.Value,
